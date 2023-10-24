@@ -7,7 +7,7 @@ Most of the codes in this study are bollowed from [CFAGO](http://bliulab.net/CFA
 
 [Wu, Z.; Guo, M.; Jin, X.; Chen, J.; Liu, B. CFAGO: Cross-fusion of network and attributes based on attention mechanism for protein function prediction. Bioinformatics 2023, 39, btad123.](https://academic.oup.com/bioinformatics/article/39/3/btad123/7072461)
 
-[Maurya, S.K., Liu, X., Murata, T.: Not all neighbors are friendly: learning to choose hop features to improve node classification. In: International Conference on Information and Knowledgement. (CIKM) (2022)] (https://dl.acm.org/doi/abs/10.1145/3511808.3557543)
+[Maurya, S.K., Liu, X., Murata, T.: Not all neighbors are friendly: learning to choose hop features to improve node classification. In: International Conference on Information and Knowledgement. (CIKM) (2022)](https://dl.acm.org/doi/abs/10.1145/3511808.3557543)
 
 ## Requirements
 All experiments are conducted on one 3090 GPU with 24G memory.
