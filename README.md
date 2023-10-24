@@ -21,18 +21,21 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 * torch==1.10.1+cu111
 * tqdm==4.64.1
 ```
-## 1. Data Preprocessing
+## 1. Data preprocessing
 
 Raw PPI network data can be downloaded from the STRING database and protein attribute information can be retrieved from the Swiss-Prot database. One can also get the files used in the paper from the google drive and save them in the `Data` folder, but please notice that they are not the latest version now. For generating adjacency matrices from PPI networks, retrieving protein Pfam domain and subcellular location and filtering GO terms and proteins, take human data as the example:
 
 ```
 cd prepocessing
+
 python annotation_preprocess.py -data_path ../Dataset -af goa_human.gaf -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -stl 41
+
 python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human
+
 python attribute_data_preprocess.py -data_path ../Dataset -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab
 ```
 
-## 2. Graph Embedding
+## 2. Graph embedding
 
 While there are many options for getting useful information from graphs, in this study we use a transformer-based autoencoder (**TransformerAE**) introduced by the _CFAGO_ paper. The TransformerAE takes the raw adjacency matrix of PPI network (minmax-normalized weighted vectors) and the protein attribute matrix (one-hot vectors of domain and subcellular location) as input, passes them through 6 attention encoder layers, gets a low-dimension hidden state matrix, and then passes it through another 6 attention encoder (without masks) layers to reconstruct the original adjacency matrix and attribute matrix. The hidden state matrix is used for graph embeddings for the PPI network with respect to a specific type of evidence. 
 
@@ -40,8 +43,22 @@ Most of the codes are the same as provided in the CFAGO repository except a litt
 
 ```
 cd CFAGO
+
 python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence combined
 ```
 
 There is a design in the original code for parallelly training across GPUs and machines but we doesn't use it in the traninig. When running multiple processes, please make sure using different `--dist-url` such as tcp://127.0.0.1:3724. The `--evidence` argument correspond to the type of PPI network to encode, and can be chosen from `neighborhood`, `fusion`, `cooccurence`, `coexpression`, `experimental`, `database`, `textmining` and `combined`.
 
+## 3. Prediction
+
+For predicting protein function:
+
+```
+CUDA_VISIBLE_DEVICES=7 python DualNetGO.py --org human --step1_iter 100 --step2_iter 50 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect C --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01 --hidden 512 --lr_sel 0.01
+```
+
+`CUDA_VISIBLE_DEVICES=7` specifies the GPU card to use. `step1_iter` and `step2_iter` are the epoch number for stage 1 and stage 2, respectively. `epochs` controls the epoch number for stage 3, which is the summed number of epochs for stage 2 and 3.
+
+## 4. Other graph embedding methods
+
+As some of the famous network-based methods were derived early and not implemented by pytorch framework, we also provide modified pytorch version for these methods, which include [_deepNF_](https://github.com/VGligorijevic/deepNF) and [_Graph2GO_](https://github.com/yanzhanglab/Graph2GO). The [_Mashup_](http://mashup.csail.mit.edu) method was implmented via MATLAB, but we are not able to convert it into a pytorch version. We modify the MATLAB code of Mashup to only attain the diffusion hidden states and train it using python with SVM kernel method. Example codes for two baseline models _Naive_ and _Blast_ are also provided.
