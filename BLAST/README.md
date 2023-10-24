@@ -1,0 +1,1 @@
+BLAST method transfers GO terms of a target protein in training set to the query protein in test set via BLAST algorithm, and the identity score of alignment is used as a coefficient for all assigned terms.
