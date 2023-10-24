@@ -49,6 +49,16 @@ python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --o
 
 There is a design in the original code for parallelly training across GPUs and machines but we doesn't use it in the traninig. When running multiple processes, please make sure using different `--dist-url` such as tcp://127.0.0.1:3724. The `--evidence` argument correspond to the type of PPI network to encode, and can be chosen from `neighborhood`, `fusion`, `cooccurence`, `coexpression`, `experimental`, `database`, `textmining` and `combined`.
 
+Those who are interested in classic graph embedding methods can see below:
+
+```
+python node2vec.py
+
+python GAE_train_loader.py
+
+python self_supervised_leaning_MLPAE.py
+```
+
 ## 3. Prediction
 
 For predicting protein function:
@@ -59,6 +69,6 @@ CUDA_VISIBLE_DEVICES=7 python DualNetGO.py --org human --step1_iter 100 --step2_
 
 `CUDA_VISIBLE_DEVICES=7` specifies the GPU card to use. `step1_iter` and `step2_iter` are the epoch number for stage 1 and stage 2, respectively. `epochs` controls the epoch number for stage 3, which is the summed number of epochs for stage 2 and 3.
 
-## 4. Other graph embedding methods
+## 4. Other network-based models
 
 As some of the famous network-based methods were derived early and not implemented by pytorch framework, we also provide modified pytorch version for these methods, which include [_deepNF_](https://github.com/VGligorijevic/deepNF) and [_Graph2GO_](https://github.com/yanzhanglab/Graph2GO). The [_Mashup_](http://mashup.csail.mit.edu) method was implmented via MATLAB, but we are not able to convert it into a pytorch version. We modify the MATLAB code of Mashup to only attain the diffusion hidden states and train it using python with SVM kernel method. Example codes for two baseline models _Naive_ and _Blast_ are also provided.
