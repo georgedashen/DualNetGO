@@ -125,3 +125,59 @@ def build_PreEncoder(args):
     return model
         
         
+class MLPAE_Encoder(nn.Module):
+    def __init__(self, feature_len, embed_len, activation, dropout):
+        super().__init__()
+        self.input_proj_1 = nn.Linear(feature_len, embed_len * 2)
+        self.input_proj_2 = nn.Linear(embed_len * 2, embed_len)
+
+        self.norm_1 = nn.LayerNorm(embed_len * 2)
+        self.norm_2 = nn.LayerNorm(embed_len)
+
+        self.dropout_1 = nn.Dropout(dropout)
+        self.dropout_2 = nn.Dropout(dropout)
+
+        self.activation_1 = activation
+        self.activation_2 = copy.deepcopy(activation)
+
+        self.W_1 = nn.Linear(embed_len, embed_len * 2)
+        self.W_2 = nn.Linear(embed_len * 2, feature_len)
+
+        self.activation_wx = copy.deepcopy(activation)
+
+        self.dropout_wx = nn.Dropout(dropout)
+        self.dropout_wz = nn.Dropout(dropout)
+
+        self.norm_wx = nn.LayerNorm(embed_len * 2)
+        
+    def forward(self, src):
+        in_x = src
+        in_x = self.input_proj_1(in_x)
+        in_x = self.norm_1(in_x)
+        in_x = self.activation_1(in_x)
+        in_x = self.dropout_1(in_x)
+
+        in_x = self.input_proj_2(in_x)
+        in_x = self.norm_2(in_x)
+        in_x = self.activation_2(in_x)
+        in_x = self.dropout_2(in_x)
+        hs = in_x.clone()
+
+        ph_x = self.W_1(hs)
+        ph_x = self.norm_wx(ph_x)
+        ph_x = self.activation_wx(ph_x)
+        ph_x = self.dropout_wx(ph_x)
+
+        rec = self.W_2(ph_x)
+
+        return rec, hs
+
+def build_MLPAE_Encoder(feature_len, args):
+    model = MLPAE_Encoder(
+        feature_len = feature_len,
+        embed_len = args.embed_len,
+        activation = _get_activation_fn(args.activation),
+        dropout = args.dropout
+    )
+
+    return model

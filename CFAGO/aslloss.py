@@ -1,5 +1,6 @@
 """
     Most borrow from: https://github.com/Alibaba-MIIL/ASL
+	Revised by Zhuoyang CHEN
 """
 import torch
 import torch.nn as nn
@@ -154,3 +155,20 @@ class pretrainLossOptimized(nn.Module):
         return recon_loss
 
         
+class pretrainLossOptimized_MLPAE(nn.Module):
+    ''' Notice - optimized version, minimizes memory allocation and gpu uploading,
+    favors inplace operations'''
+
+    def __init__(self, clip=0.05, eps=1e-5):
+        super(pretrainLossOptimized_MLPAE, self).__init__()
+        self.clip = clip
+        self.eps = eps
+
+        self.targets = self.anti_targets = self.xs_pos = self.xs_neg = self.asymmetric_w = self.loss = None
+        self.LARGE_NUM = 1e9
+    def forward(self, ori, rec):
+        x = ori.squeeze()
+        rec_x = rec.squeeze()
+
+        recon_loss = torch.mean(torch.sum(F.binary_cross_entropy_with_logits(rec_x, x, reduction='none'), dim=1))
+        return recon_loss

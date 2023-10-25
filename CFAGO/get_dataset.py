@@ -64,6 +64,33 @@ def get_ssl_datasets(args):
     
     return full_dataset, modefeature_lens
     
+def get_ssl_datasets_MLPAE(args):
+    'retrun self-supervised data'
+    #=========load feature==========
+    feature_file = args.dataset_dir + '/features.npy'
+    with open(feature_file, 'rb') as f:
+        Z = pickle.load(f)
+    Z = minmax_scale(Z)
+    
+    #=========load PPMIs========
+    ppmi = args.org + '_net_' + args.evidence + '.mat'
+    pf = os.path.join(args.dataset_dir, ppmi)
+    N = sio.loadmat(pf, squeeze_me=True)
+    X = N['Net'].todense()
+    X = minmax_scale(X)
+    #X = np.hstack((X,Z))
+
+    full_X = torch.from_numpy(X)
+    full_X = full_X.float()
+    
+    full_Z = torch.from_numpy(Z)
+    full_Z = full_Z.float()
+    modefeature_lens = [X.shape[1], Z.shape[1]]
+    
+    full_dataset = multimodesFullDataset(2, [full_X, full_Z])
+    
+    return full_dataset, modefeature_lens
+
 
 def get_datasets(args):
     #===========load annot============
