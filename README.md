@@ -53,11 +53,17 @@ There is a design in the original code for parallelly training across GPUs and m
 Those who are interested in classic graph embedding methods can see below:
 
 ```
-python node2vec.py
+cd preprocessing
 
-python GAE_train_loader.py
+python node2vec_train.py --org human --evidence combined
 
-python self_supervised_leaning_MLPAE.py
+python GAE_train_loader.py --org human --evidence combined
+```
+
+```
+cd CFAGO
+
+python self_supervised_leaning_MLPAE.py --org human --dataset_dir ../Dataset/human --output human_MLPAE_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 100 --lr 1e-5 --evidence combined
 ```
 
 ## 3. Prediction
