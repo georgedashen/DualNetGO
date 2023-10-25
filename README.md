@@ -12,14 +12,15 @@ Most of the codes in this study are bollowed from [CFAGO](http://bliulab.net/CFA
 ## Requirements
 All experiments are conducted on one 3090 GPU with 24G memory.
 ```
-* keras==2.11.0
+* networkx==2.6.3
 * numpy==1.21.6
 * pandas==1.3.5
 * scikit-learn==1.0.2
 * scipy==1.7.3
-* Theano==1.0.5
 * torch==1.10.1+cu111
-* tqdm==4.64.1
+* torch-geometric==2.0.0
+* torchaudio==0.10.1+cu111
+* torchvision==0.11.2+cu111
 ```
 ## 1. Data preprocessing
 
