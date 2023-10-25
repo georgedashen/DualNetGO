@@ -48,6 +48,7 @@ def parser_args():
     parser.add_argument('--org', help='organism')
     parser.add_argument('--dataset_dir', help='dir of dataset')
     parser.add_argument('--aspect', default='P', type=str, choices=['P', 'F', 'C'], help='GO aspect')
+    parser.add_argument('--evidence', default='combined', choices = ['neighborhood', 'fusion','cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], help='what evidence is used to construct the PPI graph')
     parser.add_argument('--pretrained_model', type=str, help='pretrained self-supervide learning model')
     parser.add_argument('--output', metavar='DIR', 
                         help='path to output folder')

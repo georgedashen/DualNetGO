@@ -26,7 +26,7 @@ import torch.multiprocessing as mp
 import torch.utils.data
 import torch.utils.data.distributed
 
-from get_dataset import get_ssl_datasets_MLPAE
+from get_dataset import get_ssl_datasets
 
 from logger import setup_logger
 import aslloss
@@ -201,7 +201,7 @@ def main():
 
 def main_worker(args, logger):
     global best_mAP
-    full_dataset, args.modesfeature_len = get_ssl_datasets_MLPAE(args)
+    full_dataset, args.modesfeature_len = get_ssl_datasets(args)
     if args.feature:
         feature_len = args.modesfeature_len[1]
     else:
