@@ -48,7 +48,7 @@ cd CFAGO
 python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence combined
 ```
 
-There is a design in the original code for parallelly training across GPUs and machines but we doesn't use it in the traninig. When running multiple processes, please make sure using different `--dist-url` such as tcp://127.0.0.1:3724. The `--evidence` argument correspond to the type of PPI network to encode, and can be chosen from `neighborhood`, `fusion`, `cooccurence`, `coexpression`, `experimental`, `database`, `textmining` and `combined`.
+There is a design in the original code for parallelly training across GPUs and machines but we doesn't use it in the traninig. When running multiple processes, please make sure using different `--dist-url` such as _tcp://127.0.0.1:3724_. The `--evidence` argument correspond to the type of PPI network to encode, and can be chosen from `neighborhood`, `fusion`, `cooccurence`, `coexpression`, `experimental`, `database`, `textmining` and `combined`.
 
 Those who are interested in classic graph embedding methods can see below:
 
@@ -62,13 +62,15 @@ python self_supervised_leaning_MLPAE.py
 
 ## 3. Prediction
 
-For predicting protein function:
+For predicting protein functions on human dataset:
 
 ```
 CUDA_VISIBLE_DEVICES=7 python DualNetGO.py --org human --step1_iter 100 --step2_iter 50 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect C --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01 --hidden 512 --lr_sel 0.01
 ```
 
 `CUDA_VISIBLE_DEVICES=7` specifies the GPU card to use. `step1_iter` and `step2_iter` are the epoch number for stage 1 and stage 2, respectively. `epochs` controls the epoch number for stage 3, which is the summed number of epochs for stage 2 and 3.
+
+For prediction on mouse dataset, please use `DualNetGO_mouse.py` and replace `--org` argument with _mouse_. For testing the evidence-centric model, use `DualNetGO_evidence`. The `DualNetGO_output.py` is used for generating additional AUPR values of each GO terms.
 
 ## 4. Other network-based models
 
