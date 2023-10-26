@@ -404,7 +404,7 @@ else:
 
 
 # load features
-with open('data/features.npy', 'rb') as f:
+with open('data/human/features.npy', 'rb') as f:
     Z = pickle.load(f)
 list_mat.append(Z)
 del Z
