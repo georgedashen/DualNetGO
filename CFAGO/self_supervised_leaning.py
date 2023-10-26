@@ -256,7 +256,7 @@ def main_worker(args, logger):
     torch.cuda.empty_cache()
     
     pre_loss_f = args.output + '/' + args.org + '_attention_layers_' + str(args.attention_layers) + '_lr_' + str(args.lr) + '_seed_' + str(args.seed) + \
-                 '_activation_' + str(args.activation) + '_pre_loss.csv'
+                 '_activation_' + str(args.activation) + '_' + args.evidence + '_pre_loss.csv'
     with open(pre_loss_f, 'w') as f:
         csv.writer(f).writerow(['pre_loss'])
     steplr = lr_scheduler.StepLR(pre_model_optimizer, 2500)
@@ -270,7 +270,7 @@ def main_worker(args, logger):
             csv.writer(f).writerow([pre_loss, pre_model_optimizer.param_groups[0]['lr']])
         
     torch.save(pre_model, args.output + '/' + args.org + '_attention_layers_' + str(args.attention_layers) + '_lr_' + str(args.lr) + '_seed_' + str(args.seed) + \
-               '_activation_' + str(args.activation) + '_model.pkl')
+               '_activation_' + str(args.activation) + '_model_' + args.evidence + '.pkl')
 
 def pre_train(full_loader, pre_model, pre_criterion, optimizer, steplr, epoch, args, logger):
     losses = AverageMeter('Loss', ':5.3f')
