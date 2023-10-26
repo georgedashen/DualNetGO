@@ -28,7 +28,7 @@ np.random.seed(args.seed)
 
 t_total = time.time()
 
-Annot = sio.loadmat(f'../data/{args.org}_annot.mat', squeeze_me=True)
+Annot = sio.loadmat(f'../data/{args.org}/{args.org}_annot.mat', squeeze_me=True)
 train_idx = Annot['indx'][args.aspect].tolist()['train'].tolist().tolist()
 valid_idx = Annot['indx'][args.aspect].tolist()['valid'].tolist().tolist()
 test_idx = Annot['indx'][args.aspect].tolist()['test'].tolist().tolist()
