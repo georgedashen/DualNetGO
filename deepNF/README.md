@@ -49,4 +49,4 @@ To predict GO terms from the BP functional category of human, run:
 python trainsvm.py --org human --aspect P
 ```
 
-One can also use the output.py script to output AUPR values for each GO term.
+One can also use the `output.py` script to output AUPR values for each GO term.
