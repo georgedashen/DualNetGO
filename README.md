@@ -24,7 +24,13 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 ```
 ## 1. Data preprocessing
 
-Raw PPI network data can be downloaded from the STRING database and protein attribute information can be retrieved from the Swiss-Prot database. One can also get the files used in the paper from the google drive and save them in the `Data` folder, but please notice that they are not the latest version now. For generating adjacency matrices from PPI networks, retrieving protein Pfam domain and subcellular location and filtering GO terms and proteins, take human data as the example:
+Before running any code, please make sure corresponding data has been downloaded and placed in the **data** folder.
+
+Raw PPI network data can be downloaded from the STRING database and protein attribute information can be retrieved from the Swiss-Prot database. 
+
+One can also get the files used in the paper from the [_CFAGO_](http://bliulab.net/CFAGO/static/dataset/Dataset.rar) website and save them in the `data` folder, but please notice that they are not the latest version now. 
+
+For generating adjacency matrices from PPI networks, retrieving protein Pfam domain and subcellular location and filtering GO terms and proteins. Take human data as the example:
 
 ```
 cd prepocessing
