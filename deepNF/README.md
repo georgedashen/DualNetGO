@@ -42,6 +42,8 @@ Notice that in the original paper a batch size of 256 is used, but it consumes a
 
 ## SVM training and evaluation
 
+To predict GO terms from the BP functional category of human, run:
+
 ```
-python svmtrain.py
+python trainsvm.py --org human --aspect P
 ```
