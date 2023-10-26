@@ -29,18 +29,18 @@ Raw PPI network data can be downloaded from the STRING database and protein attr
 ```
 cd prepocessing
 
-python annotation_preprocess.py -data_path ../Dataset -af goa_human.gaf -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -stl 41
+python annotation_preprocess.py -data_path ../data -af goa_human.gaf -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -stl 41
 
-python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence combined
-python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence neighborhood
-python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence fusion
-python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence cooccurence
-python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence coexpression
-python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence experimental
-python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence database
-python network_data_preprocess.py -data_path ../Dataset -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence textmining
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence combined
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence neighborhood
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence fusion
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence cooccurence
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence coexpression
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence experimental
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence database
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence textmining
 
-python attribute_data_preprocess.py -data_path ../Dataset -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab
+python attribute_data_preprocess.py -data_path ../data -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab
 ```
 
 ## 2. Graph embedding
@@ -52,14 +52,14 @@ Most of the codes are the same as provided in the CFAGO repository except a litt
 ```
 cd CFAGO
 
-python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence combined
-python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3724 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence neighborhood
-python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3725 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence fusion
-python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3726 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence coccurence
-python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3727 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence coexpression
-python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3728 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence experimental
-python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3729 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence database
-python self_supervised_leaning.py --org human --dataset_dir ../Dataset/human --output human_result --dist-url tcp://127.0.0.1:3730 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence textmining
+python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence combined
+python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3724 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence neighborhood
+python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3725 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence fusion
+python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3726 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence coccurence
+python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3727 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence coexpression
+python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3728 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence experimental
+python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3729 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence database
+python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3730 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence textmining
 ```
 
 There is a design in the original code for parallelly training across GPUs and machines but we doesn't use it in the traninig. When running multiple processes, please make sure using different `--dist-url` such as _tcp://127.0.0.1:3724_. The `--evidence` argument correspond to the type of PPI network to encode, and can be chosen from `neighborhood`, `fusion`, `cooccurence`, `coexpression`, `experimental`, `database`, `textmining` and `combined`.
@@ -77,7 +77,7 @@ python GAE_train_loader.py --org human --evidence combined
 ```
 cd CFAGO
 
-python self_supervised_leaning_MLPAE.py --org human --dataset_dir ../Dataset/human --output human_MLPAE_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 100 --lr 1e-5 --evidence combined
+python self_supervised_leaning_MLPAE.py --org human --dataset_dir ../data/human --output human_MLPAE_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 100 --lr 1e-5 --evidence combined
 ```
 
 ## 3. Prediction
