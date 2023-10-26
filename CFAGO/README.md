@@ -6,7 +6,7 @@ More details can be found at the original paper:
 
 [Wu, Z.; Guo, M.; Jin, X.; Chen, J.; Liu, B. CFAGO: Cross-fusion of network and attributes based on attention mechanism for protein function prediction. Bioinformatics 2023, 39, btad123.](https://academic.oup.com/bioinformatics/article/39/3/btad123/7072461)
 
-Original codes can data can be downloaded from: [CFAGO data and codes]((http://bliulab.net/CFAGO)).
+Original codes can data can be downloaded from: [CFAGO data and codes](http://bliulab.net/CFAGO).
 
 We modify the code a little bit to restrict training only on the training set. Validation set is used for evaluating when the model gets the best Fmax score and determining a threshold to decide whether a function. Evaluation on test set with parameters when the model attains best Fmax on validation set is reported as the final results.
 
