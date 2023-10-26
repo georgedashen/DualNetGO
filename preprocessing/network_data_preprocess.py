@@ -14,7 +14,7 @@ from tqdm import tqdm
 def _load_network(filename, name, mtrx='adj'):
     As = []
     if mtrx == 'adj':
-        net_names = [name] #fusion cooccurence coexpression experimental database textmining combined_score
+        net_names = [name] #[neighborhood fusion cooccurence coexpression experimental database textmining combined] score
         name_dict = {'neighborhood':-8, 'fusion':-7, 'cooccurence':-6, 'coexpression':-5, 'experimental':-4, 'database':-3, 'textmining':-2, "combined":-1}
         graphs = []
         for name in net_names:
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     parser.add_argument('-data_path', '--data_path', type = str, help = "the data path")
     parser.add_argument('-snf', '--string_network_file', type = str, help = "the input string PPI network file")
     parser.add_argument('-org', '--organism', type = str, help = "the output_directory")
-    parser.add_argument('-n', '--name', type = str, default = 'combined', help = "type of PPI to generate")
+    parser.add_argument('--evidence', type = str, default = 'combined', help = "type of PPI to generate")
     
     margs = parser.parse_args()
     assert margs.name in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], "Wrong PPI type!"
@@ -182,7 +182,7 @@ if __name__ == "__main__":
         os.mkdir(od)
     
     # Load STRING networks
-    Nets = load_networks(filename, margs.name)
+    Nets = load_networks(filename, margs.evidence)
 
     print ("### Writing output to file...")
     save_file = margs.data_path + '/' + margs.organism + '/' + margs.organism + '_net_' + margs.name +'.mat'
