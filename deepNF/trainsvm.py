@@ -91,10 +91,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--org', type=str, default='human')
     parser.add_argument('--aspect', type=str, default='P')
+    parser.add_argument('--datadir', type=str, default='results')
     parser.add_argument('--out', type=str, default='results.csv')
     args = parser.parse_args()
     
-    X = np.load(f'results/{args.org}_net_MDA.npy')
+    X = np.load(f'{args.datadir}/{args.org}_net_MDA.npy')
     Annot = sio.loadmat(f'../data/{args.org}_annot.mat', squeeze_me=True)
 
     train_idx = Annot['indx'][args.aspect].tolist()['train'].tolist().tolist()
