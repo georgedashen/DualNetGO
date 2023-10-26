@@ -38,7 +38,8 @@ python self_supervised_learning_MDA --org human
 
 One can change the `--org` argument to _mouse_.
 
-Notice that in the original paper a batch size of 256 is used, but it consumes about 19G memory in GPU. One can use a smaller batch size or change other parameters such as learning_rate if wanted.
+Notice that in the original paper a batch size of 256 is used, but it consumes about 19G memory in GPU. One can use a smaller batch size or change other parameters such as learning_rate if needed.
+Besides the paper suggest to use a learning rate of 0.2, which we tested but produce poor performance. A learning rate of 1e-5 is preferred.
 
 ## SVM training and evaluation
 
