@@ -35,5 +35,5 @@ python self_supervised_leaning.py --org human --dataset_dir ../data/human --outp
 We also add an argument `--evidence` to specify which pretraining model to use with respect to PPI evidence.
 
 ```
-python CFAGO_split_comet.py --org human --dataset_dir ../data/human --output human_result  --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-4 --evidence combined --pretrained_model human_result/human_attention_layers_6_lr_1e-05_seed_1329765522_activation_gelu_model.pkl
+python CFAGO_split_comet.py --org human --dataset_dir ../data/human --output human_result --evidence combined --aspect P --num_class 45 --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.3 --attention_layers 6 --gamma_pos 0 --gamma_neg 2 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-4 --pretrained_model human_result/human_attention_layers_6_lr_1e-05_seed_1329765522_activation_gelu_model_combined.pkl
 ```
