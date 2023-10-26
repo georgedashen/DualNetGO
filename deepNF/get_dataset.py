@@ -26,7 +26,7 @@ def get_ssl_datasets(args):
     Y = []
     for e in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining']:
         fn = f'{args.org}_net_{e}_RWR_PPMI.mat'
-        y = sio.loadmat(os.path.join(args.dataset_dir, fn), squeeze_me=True)
+        y = sio.loadmat(os.path.join(args.dataset_dir, args.org, fn), squeeze_me=True)
         y = y['Net'].todense()
         Y.append(torch.from_numpy(y).float())
     
