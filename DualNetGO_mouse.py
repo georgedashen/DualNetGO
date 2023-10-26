@@ -376,7 +376,7 @@ def train(list_train_mat,list_val_mat,list_test_mat,list_label,num_nodes,num_fea
 ## main process =====================================================
 acc_list = []
 
-Annot = sio.loadmat('data/mouse_annot.mat', squeeze_me=True)
+Annot = sio.loadmat('data/mouse/mouse_annot.mat', squeeze_me=True)
 train_idx = Annot['indx'][args.aspect].tolist()['train'].tolist().tolist()
 valid_idx = Annot['indx'][args.aspect].tolist()['valid'].tolist().tolist()
 test_idx = Annot['indx'][args.aspect].tolist()['test'].tolist().tolist()
@@ -392,14 +392,14 @@ labels_test = np.array(Annot['GO'][args.aspect].tolist()['test'].tolist())
 list_mat = []
 if args.embedding != 'None':
     for e in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining']:
-        fn = f'data/mouse_net_{e}_{args.embedding}.npy'
+        fn = f'data/mouse/mouse_net_{e}_{args.embedding}.npy'
         y = np.load(fn)
         list_mat.append(y)
     del y
 else:
 # adj_mat
     for e in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining']:
-        fn = f'data/mouse_net_{e}.mat'
+        fn = f'data/mouse/mouse_net_{e}.mat'
         y = sio.loadmat(fn, squeeze_me=True)
         y = y['Net'].todense()
         y = minmax_scale(y)
