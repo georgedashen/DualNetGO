@@ -30,13 +30,13 @@ adj = adj['Net'].todense()
 edge_index = torch.tensor(adj).nonzero().t().contiguous()
 
 if args.type == 'adj':
-    with open(f'../data/features_{args.org}.npy', 'rb') as f:
+    with open(f'../data/{args.org}/features.npy', 'rb') as f:
         features = pickle.load(f)
     CT = np.load(f'{args.org}_CT_343.npy')
     CT = minmax_scale(CT)
     x = torch.cat([torch.tensor(features).float(), torch.tensor(CT).float()],1)
 elif args.type == 'sim':
-    with open(f'../data/features_{args.org}.npy', 'rb') as f:
+    with open(f'../data/{args.org}/features.npy', 'rb') as f:
         x = pickle.load(f)
 
 x = torch.tensor(x).float()
