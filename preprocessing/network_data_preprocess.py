@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # --------------------------------------------------------
 # part of code borrowed from deepNF
+# Further revised by Zhuoyang CHEN to generate several PPIs
 # --------------------------------------------------------
 import numpy as np
 import networkx as nx
@@ -8,23 +9,25 @@ import scipy.io as sio
 import argparse
 import os
 from scipy import sparse
+from tqdm import tqdm
 
-def _load_network(filename, mtrx='adj'):
+def _load_network(filename, name, mtrx='adj'):
     As = []
     if mtrx == 'adj':
-        net_names = ['combined']
+        net_names = [name] #fusion cooccurence coexpression experimental database textmining combined_score
+        name_dict = {'neighborhood':-8, 'fusion':-7, 'cooccurence':-6, 'coexpression':-5, 'experimental':-4, 'database':-3, 'textmining':-2, "combined":-1}
         graphs = []
         for name in net_names:
             graphs.append(nx.Graph(name=name))
         fRead = open(filename, 'r')
         fRead.readline()
-        for line in fRead:
+        for i, line in tqdm(enumerate(fRead)):
             splitted = line.strip().split()
             prot1 = str(splitted[0])
             # prot1 = prot1.split('.')[1]
             prot2 = str(splitted[1])
             # prot2 = prot2.split('.')[1]
-            score = splitted[-1]
+            score = splitted[name_dict[name]]
             score = float(score)
             if not graphs[0].has_node(prot1):
                 graphs[0].add_node(prot1)
@@ -69,13 +72,13 @@ def _load_network(filename, mtrx='adj'):
     return As
 
 
-def load_networks(filename, mtrx='adj'):
+def load_networks(filename, name='combined', mtrx='adj'):
     """
     Function for loading Mashup files
     Files can be downloaded from:
         http://cb.csail.mit.edu/cb/mashup/
     """
-    Nets = _load_network(filename, mtrx)
+    Nets = _load_network(filename, name, mtrx)
 
     return Nets
 
@@ -168,20 +171,19 @@ if __name__ == "__main__":
     parser.add_argument('-data_path', '--data_path', type = str, help = "the data path")
     parser.add_argument('-snf', '--string_network_file', type = str, help = "the input string PPI network file")
     parser.add_argument('-org', '--organism', type = str, help = "the output_directory")
-    
+    parser.add_argument('-n', '--name', type = str, default = 'combined', help = "type of PPI to generate")
     
     margs = parser.parse_args()
+    assert margs.name in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], "Wrong PPI type!"
     filename = os.path.join(margs.data_path, margs.organism, margs.string_network_file)
     od = margs.data_path
     
     if not os.path.exists(od):
         os.mkdir(od)
     
-    string_nets = ['combined']
     # Load STRING networks
-    Nets = load_networks(filename)
-    # Compute RWR + PPMI
+    Nets = load_networks(filename, margs.name)
 
     print ("### Writing output to file...")
-    save_file = margs.data_path + '/' + margs.organism + '/' + margs.organism + '_net_combined.mat'
+    save_file = margs.data_path + '/' + margs.organism + '/' + margs.organism + '_net_' + margs.name +'.mat'
     sio.savemat(save_file, {'Net':sparse.csc_matrix(Nets[0])})
