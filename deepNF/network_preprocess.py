@@ -62,7 +62,7 @@ if __name__ == "__main__":
     assert args.evidence in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], "Wrong PPI type!"
     
     # Load STRING networks
-    Net = sio.loadmat(f'{args.data_path}/{args.org}_net_{args.evidence}.mat', squeeze_me=True)
+    Net = sio.loadmat(f'{args.data_path}/{args.org}/{args.org}_net_{args.evidence}.mat', squeeze_me=True)
     Net = Net['Net'].todense()
     t0 = time.time()
 
@@ -78,5 +78,5 @@ if __name__ == "__main__":
     print(f'PPMI took {t2}s')
 
     print ("### Writing output to file...")
-    save_file = args.data_path + '/' + args.org + '_net_' + args.evidence + '_RWR_PPMI.mat'
+    save_file = args.data_path + '/' + args.org + '/' + args.org +'_net_' + args.evidence + '_RWR_PPMI.mat'
     sio.savemat(save_file, {'Net':sparse.csc_matrix(Net)})
