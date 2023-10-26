@@ -181,7 +181,7 @@ def test(list_val_mat,list_test_mat,list_label,num_nodes,num_feat,num_labels):
 
 
 ## main process =====================================================
-Annot = sio.loadmat(f'data/{args.org}_annot.mat', squeeze_me=True)
+Annot = sio.loadmat(f'data/{args.org}/{args.org}_annot.mat', squeeze_me=True)
 train_idx = Annot['indx'][args.aspect].tolist()['train'].tolist().tolist()
 valid_idx = Annot['indx'][args.aspect].tolist()['valid'].tolist().tolist()
 test_idx = Annot['indx'][args.aspect].tolist()['test'].tolist().tolist()
@@ -197,14 +197,14 @@ labels_test = np.array(Annot['GO'][args.aspect].tolist()['test'].tolist())
 list_mat = []
 if args.embedding != 'None':
     for e in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining']:
-        fn = f'data/{args.org}_net_{e}_{args.embedding}.npy'
+        fn = f'data/{args.org}/{args.org}_net_{e}_{args.embedding}.npy'
         y = np.load(fn)
         list_mat.append(y)
     del y
 else:
 # adj_mat
     for e in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining']:
-        fn = f'data/{args.org}_net_{e}.mat'
+        fn = f'data/{args.org}/{args.org}_net_{e}.mat'
         y = sio.loadmat(fn, squeeze_me=True)
         y = y['Net'].todense()
         y = minmax_scale(y)
@@ -213,7 +213,7 @@ else:
 
 
 # load features
-with open(f'data/features_{args.org}.npy', 'rb') as f:
+with open(f'data/{args.org}/features.npy', 'rb') as f:
     Z = pickle.load(f)
 list_mat.append(Z)
 del Z
