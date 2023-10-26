@@ -112,7 +112,7 @@ x2 = np.load(f'{args.org}_net_sim_VGAE_epoch100.npy')
 
 X = torch.cat([torch.tensor(x1).float(), torch.tensor(x2).float()],1)
 
-Annot = sio.loadmat(f'../data/{args.org}_annot.mat', squeeze_me=True)
+Annot = sio.loadmat(f'../data/{args.org}/{args.org}_annot.mat', squeeze_me=True)
 train_idx = Annot['indx'][args.aspect].tolist()['train'].tolist().tolist()
 valid_idx = Annot['indx'][args.aspect].tolist()['valid'].tolist().tolist()
 test_idx = Annot['indx'][args.aspect].tolist()['test'].tolist().tolist()
