@@ -10,7 +10,7 @@ parser.add_argument('--org', default='human', help='organism')
 parser.add_argument('--evidence', type=str, default='neighborhood')
 args = parser.parse_args()
 
-adj = sio.loadmat(f'../data/{args.org}_net_{args.evidence}.mat', squeeze_me=True)
+adj = sio.loadmat(f'../data/{args.org}/{args.org}_net_{args.evidence}.mat', squeeze_me=True)
 adj = adj['Net'].todense()
 adj = minmax_scale(adj)
 #edge_index = torch.tensor(adj).nonzero().t().contiguous()
