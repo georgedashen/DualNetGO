@@ -278,7 +278,7 @@ def main_worker(args, logger, experiment):
     
     
     fn = args.output + '/' + args.org + '_attention_layers_' + str(args.attention_layers) + '_aspect_' + args.aspect + '_fintune_seed_' + str(args.seed) + \
-         '_act_' + args.activation + '.csv'
+         '_act_' + args.activation + '_' + args.evidence + '.csv'
     with open(fn, 'w') as f:
         csv.writer(f).writerow(['m-aupr','M-aupr','F1','acc', 'Fmax'])
     
