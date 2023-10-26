@@ -94,8 +94,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     X = np.load(f'results/{args.org}_net_MDA.npy')
-    #X = np.load(f'../data/{args.org}_net_textmining_AE.npy')
-    Annot = sio.loadmat(f'../data/{args.org}_annot.mat', squeeze_me=True)
+    Annot = sio.loadmat(f'../data/{args.org}/{args.org}_annot.mat', squeeze_me=True)
 
     train_idx = Annot['indx'][args.aspect].tolist()['train'].tolist().tolist()
     valid_idx = Annot['indx'][args.aspect].tolist()['valid'].tolist().tolist()
