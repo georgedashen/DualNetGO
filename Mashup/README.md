@@ -15,13 +15,13 @@ We modify the code a little bit to only use Mashup to generate the diffusion hid
 First use python to process the PPI adjacency matrix into adjacency edge list. PPI from all seven evidence must all be processed before next step.
 
 ```
-genEdgeList.py --org human --evidence neighborhood &
-genEdgeList.py --org human --evidence fusion &
-genEdgeList.py --org human --evidence cooccurence &
-genEdgeList.py --org human --evidence coexpression &
-genEdgeList.py --org human --evidence experimental &
-genEdgeList.py --org human --evidence database &
-genEdgeList.py --org human --evidence textmining &
+python genEdgeList.py --org human --evidence neighborhood &
+python genEdgeList.py --org human --evidence fusion &
+python genEdgeList.py --org human --evidence cooccurence &
+python genEdgeList.py --org human --evidence coexpression &
+python genEdgeList.py --org human --evidence experimental &
+python genEdgeList.py --org human --evidence database &
+python genEdgeList.py --org human --evidence textmining &
 ```
 
 One may change the `--org` argument from _human_ to _mouse_ to generate data for mouse.
