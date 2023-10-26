@@ -10,6 +10,8 @@ Original codes can be downloaded from: [Mashup data and codes](https://cb.csail.
 
 We modify the code a little bit to only use Mashup to generate the diffusion hidden states and then use python to train a kernel svm on these hidden states.
 
+Some data is generated from the main DualNetGO pipeline, so please make sure to run the codes in the **Data preprocessing** section for DualNetGO first.
+
 ## Preprocess adjacency matrix
 
 First use python to process the PPI adjacency matrix into adjacency edge list. PPI from all seven evidence must all be processed before next step.
