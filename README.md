@@ -1,5 +1,5 @@
 # DualNetGO
-DualNetGO: A Dual-network Deep Learning Model to Intelligently Select Multi-modal Features for Protein Function Prediction
+DualNetGO: A Dual Network Model for Protein Function Prediction via Effective Feature Selection
 
 Here we provide the codes, some of the processed data and important results of the DualNetGO paper. DualNetGO is comprised of two components: a **graph encoder** for extracting graph information or generating graph embeddings and a **predictor** for predicting protein functions.
 
