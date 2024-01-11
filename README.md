@@ -19,6 +19,7 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 * scipy==1.7.3
 * torch==1.10.1+cu111
 * torch-geometric==2.0.0
+* torch-sparse==0.6.13
 * torchaudio==0.10.1+cu111
 * torchvision==0.11.2+cu111
 ```
