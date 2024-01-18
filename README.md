@@ -23,11 +23,25 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 * torchaudio==0.10.1+cu111
 * torchvision==0.11.2+cu111
 ```
+
+## Quick run
+Before running any code, please make sure corresponding [processed_data](https://zenodo.org/records/10526397) has been downloaded, extracted, and placed in the **data** folder.
+
+Here is an example for reproducing the results of human reported in the script using graph embeddings from TransformerAE:
+
+```
+# using GPU
+CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --org human --step1_iter 100 --step2_iter 50 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect C --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01 --hidden 512 --lr_sel 0.01 --embedding AE
+
+CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --org human --step1_iter 300 --step2_iter 10 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect P --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01  --hidden 512 --lr_sel 0.01 --embedding AE
+
+CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --org human --step1_iter 100 --step2_iter 40 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect F --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01  --hidden 512 --lr_sel 0.01 --embedding AE
+
+# Fmax Results: BP 0.459, MF 0.226, CC 0.464
+```
+
 ## 1. Data preprocessing
-
-Before running any code, please make sure corresponding data has been downloaded and placed in the **data** folder.
-
-Raw PPI network data can be downloaded from the STRING database and protein attribute information can be retrieved from the Swiss-Prot database. 
+Raw PPI network data can be downloaded from the STRING database and protein attribute information can be retrieved from the Swiss-Prot database. If one has already downloaded the processed data (with raw data included) from above, then may skip this step.
 
 One can also get the files used in the paper from the [_CFAGO_](http://bliulab.net/CFAGO/static/dataset/Dataset.rar) website and save them in the `data` folder, but please notice that they are not the latest version now. 
 
@@ -50,13 +64,15 @@ python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.det
 python attribute_data_preprocess.py -data_path ../data -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab
 ```
 
+The resulting files are `human_annot.mat` for datasets and labels, `human_net_*.mat` for adjacency matices, and `features.npy` for protein attributes.
+
 For mouse please use the data with **10090** taxonomy code, and `mgi.gaf` as the annotation file. Uniprot file for mouse is `uniprot-download_true_fields_accession_2Creviewed_2Csequence_2Cxref_-2022.06.29-08.34.18.65`.
 
 ## 2. Graph embedding
 
 While there are many options for getting useful information from graphs, in this study we use a transformer-based autoencoder (**TransformerAE**) introduced by the _CFAGO_ paper. The TransformerAE takes the raw adjacency matrix of PPI network (minmax-normalized weighted vectors) and the protein attribute matrix (one-hot vectors of domain and subcellular location) as input, passes them through 6 attention encoder layers, gets a low-dimension hidden state matrix, and then passes it through another 6 attention encoder (without masks) layers to reconstruct the original adjacency matrix and attribute matrix. The hidden state matrix is used for graph embeddings for the PPI network with respect to a specific type of evidence. 
 
-Most of the codes are the same as provided in the CFAGO repository except a little modification for attaining the hidden state matrix after tranining. Noted that we use completely the default setting provided in the original code and find out that it very time consuming (about 50 hours as using 5000 epochs). We have tried a reduced epoch number such as 500 and performance on prediction is even better for CFAGO, so it is fine to use a smaller epoch number to shorten training time.
+Most of the codes are the same as provided in the CFAGO repository except a little modification for attaining the hidden state matrix after tranining. Noted that we use completely the default setting provided in the original code and find out that it very time consuming, about **50 hours** as using 5000 epochs! We have tried a reduced epoch number such as 500 and performance on prediction is even better for CFAGO (not reported in the script), so it is fine to use a smaller epoch number to shorten training time.
 
 ```
 cd CFAGO
@@ -76,6 +92,7 @@ There is a design in the original code for parallelly training across GPUs and m
 Those who are interested in classic graph embedding methods can see below:
 
 ```
+#for node2vec and graph variational autoencoder
 cd preprocessing
 
 python node2vec_train.py --org human --evidence combined
@@ -84,6 +101,7 @@ python GAE_train_loader.py --org human --evidence combined
 ```
 
 ```
+#for MLPAE
 cd CFAGO
 
 python self_supervised_leaning_MLPAE.py --org human --dataset_dir ../data/human --output human_MLPAE_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 100 --lr 1e-5 --evidence combined
