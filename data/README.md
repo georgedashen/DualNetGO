@@ -1,1 +1,1 @@
-Download the raw data from databases or [_CFAGO_](http://bliulab.net/CFAGO/static/dataset/Dataset.rar) website and place them here. The **human** and **mouse** folder should be placed directly here.
+Down load the raw and processed data from [dataset](https://zenodo.org/records/10526397) and place them here (under the _data_ folder). One can also download the raw data from databases or [_CFAGO_](http://bliulab.net/CFAGO/static/dataset/Dataset.rar) website. There will be two folders, **human** and **mouse** under the _data_ folder.
