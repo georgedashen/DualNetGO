@@ -119,6 +119,8 @@ CUDA_VISIBLE_DEVICES=7 python DualNetGO.py --org human --step1_iter 100 --step2_
 
 For prediction on mouse dataset, please use `DualNetGO_mouse.py` and replace `--org` argument with _mouse_. For testing the evidence-centric model, use `DualNetGO_evidence`. The `DualNetGO_output.py` is used for generating additional AUPR values of each GO terms.
 
+For those who are interested in reproducing the best results with TransformerAE or other embedding methods, run `sh experiment_best.sh` for human and `sh experiment_best_mouse.sh` for mouse. Remember to modify the proper device id in `CUDA_VISIBLE_DEVICES=[device_id]` to specify which gpu card to be used.
+
 ## 4. Other network-based models
 
 As some of the famous network-based methods were derived early and not implemented by pytorch framework, we also provide modified pytorch version for these methods, which include [_deepNF_](https://github.com/VGligorijevic/deepNF) and [_Graph2GO_](https://github.com/yanzhanglab/Graph2GO). The [_Mashup_](http://mashup.csail.mit.edu) method was implmented via MATLAB, but we are not able to convert it into a pytorch version. We modify the MATLAB code of Mashup to only attain the diffusion hidden states and train it using python with SVM kernel method. Example codes for two baseline models _Naive_ and _Blast_ are also provided.
