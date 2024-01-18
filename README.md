@@ -107,7 +107,7 @@ cd CFAGO
 python self_supervised_leaning_MLPAE.py --org human --dataset_dir ../data/human --output human_MLPAE_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 100 --lr 1e-5 --evidence combined
 ```
 
-## 3. Prediction
+## 3. Training and Prediction
 
 For predicting protein functions on human dataset:
 
