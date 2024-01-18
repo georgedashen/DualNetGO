@@ -171,7 +171,7 @@ if __name__ == "__main__":
     parser.add_argument('-data_path', '--data_path', type = str, help = "the data path")
     parser.add_argument('-snf', '--string_network_file', type = str, help = "the input string PPI network file")
     parser.add_argument('-org', '--organism', type = str, help = "the output_directory")
-    parser.add_argument('--evidence', type = str, default = 'combined', help = "type of PPI to generate")
+    parser.add_argument('-n', '--name', type = str, default = 'combined', help = "type of PPI to generate")
     
     margs = parser.parse_args()
     assert margs.name in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], "Wrong PPI type!"
