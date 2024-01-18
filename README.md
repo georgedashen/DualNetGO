@@ -52,14 +52,14 @@ cd prepocessing
 
 python annotation_preprocess.py -data_path ../data -af goa_human.gaf -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -stl 41
 
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence combined
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence neighborhood
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence fusion
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence cooccurence
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence coexpression
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence experimental
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence database
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human --evidence textmining
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n combined
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n neighborhood
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n fusion
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n cooccurence
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n coexpression
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n experimental
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n database
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n textmining
 
 python attribute_data_preprocess.py -data_path ../data -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab
 ```
