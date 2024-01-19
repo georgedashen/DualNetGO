@@ -41,7 +41,7 @@ CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --org human --step1_iter 500 --step2_
 # Best masks: BP [3,5,6], MF [3,4,6], CC [0,2]
 ```
 
-After running the above, three models for BP, MF and CC, respectively, are trained, and their weights and the corresponding results containing the best masks are saved. Now if we have a FASTA file (one or multiple sequences) at hand, we can use the `DualNetGO_fasta.py` script for function prediction. For this study, we only train models for human and mouse, thus the query proteins should those in human or mouse. Querying models from other organisms is theoretically possible, but may encounter error if no significant match is found by blast, or result in low performance.
+After running the above, three models for BP, MF and CC, respectively, are trained, and their weights and the corresponding results containing the best masks are saved. Now if we have a FASTA file (one or multiple sequences) at hand, we can use the `DualNetGO_fasta.py` script for function prediction. For this study, we only train models for human and mouse, thus the query proteins should be those in human or mouse. Querying models from other organisms is theoretically possible, but may encounter error if no significant match is found by blast, or result in low performance.
 
 We use the FASTA file for human test set on CC aspect as an example:
 
