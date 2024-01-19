@@ -41,6 +41,24 @@ CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --org human --step1_iter 500 --step2_
 # Best masks: BP [3,5,6], MF [3,4,6], CC [0,2]
 ```
 
+After running the above, three models for BP, MF and CC, respectively, are trained, and their weights and the corresponding results containing the best masks are saved. Now if we have a FASTA file (one or multiple sequences) at hand, we can use the `DualNetGO_fasta.py` script for function prediction. For this study, we only train models for human and mouse, thus the query proteins should those in human or mouse. Querying models from other organisms is theoretically possible, but may encounter error if no significant match is found by blast, or result in low performance.
+
+We use the FASTA file for human test set on CC aspect as an example:
+
+```
+#make sure the blast tool has been installed, check by running 'blastp -h' in the terminal
+
+CUDA_VISIBLE_DEVICES=0 python DualNetGO_fasta.py --fasta ./data/human_C_test.fa --org human --aspect C --checkpoint ./human_best/iter1_500_iter2_80_feat_3_epoch100_C_AE_seed42.pt --out prediction.csv
+```
+
+The output file contains protein_ids in the FASTA file, GO terms used in this study and their corresponding prediction scores. The file is ready for CAFA submission, but please note that this study does not aim for the CAFA competition.
+
+If one does not want to perform blast in the terminal, we also provide the FASTA file for all proteins in human and mouse in the `data` folder. After querying the FASTA file against the provided dataset eg. human.fa, please filter the result first to make sure only the one with highest score or identity remained, and run the following (replace the query_result_human.txt with your blast result, should be in tabular format):
+
+```
+CUDA_VISIBLE_DEVICES=0 python DualNetGO_fasta.py --txt query_result_human.txt --org human --aspect C --checkpoint ./human_best/iter1_500_iter2_80_feat_3_epoch100_C_AE_seed42.pt --out prediction.csv
+```
+
 ## 1. Data preprocessing
 Raw PPI network data can be downloaded from the STRING database and protein attribute information can be retrieved from the Swiss-Prot database. If one has already downloaded the processed data (with raw data included) from above, then may skip this step.
 
