@@ -12,6 +12,7 @@ Most of the codes in this study are bollowed from [CFAGO](http://bliulab.net/CFA
 ## Requirements
 All experiments are conducted on one 3090 GPU with 24G memory.
 ```
+* python==3.7
 * networkx==2.6.3
 * numpy==1.21.6
 * pandas==1.3.5
@@ -22,6 +23,7 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 * torch-sparse==0.6.13
 * torchaudio==0.10.1+cu111
 * torchvision==0.11.2+cu111
+* termcolor==2.4.0
 ```
 
 ## Quick run
