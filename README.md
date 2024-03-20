@@ -21,10 +21,13 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 * torch==1.10.1+cu111
 * torch-geometric==2.0.0
 * torch-sparse==0.6.13
+* torch-scatter==2.1.2
 * torchaudio==0.10.1+cu111
 * torchvision==0.11.2+cu111
 * termcolor==2.4.0
 ```
+
+If installation failed for torch-scatter, you can try to install with `pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-1.10.1+cu111.html` and replace the torch and cuda version with your own one.
 
 ## Quick run
 Before running any code, please make sure corresponding [processed_data](https://zenodo.org/records/10526397) has been downloaded, extracted, and placed in the **data** folder.
