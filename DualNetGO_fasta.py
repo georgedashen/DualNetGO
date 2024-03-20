@@ -35,8 +35,6 @@ import csv
 import aslloss
 from validation import evaluate_performance
 
-from comet_ml import Experiment #comment this if not needed
-
 warnings.filterwarnings("ignore") #temporary ignoring warning from torch_sparse
 # Training settings
 example_usage = 'CUDA_VISIBLE_DEVICES=0 python DualNetGO_fasta.py --fasta ./data/human_C_test.fa --org human --aspect C --checkpoint ./human_best/iter1_500_iter2_80_feat_3_epoch100_C_AE_seed42.pt --out prediction.csv'
