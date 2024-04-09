@@ -32,7 +32,7 @@ from validation import evaluate_performance
 
 warnings.filterwarnings("ignore") #temporary ignoring warning from torch_sparse
 # Training settings
-example_usage = 'CUDA_VISIBLE_DEVICES=7 python DualNetGO_evidence.py --org human --aspect P --evidence combined --step1_iter 500 --step2_iter 50 --epochs 100 --max_feat_select 4 --num_adj 7'
+example_usage = 'python DualNetGO_evidence.py --org human --aspect P --evidence textmining --step1_iter 500 --step2_iter 50 --epochs 100 --max_feat_select 4 --num_adj 5'
 
 parser = argparse.ArgumentParser(description='DualNetGO main function', epilog=example_usage)
 parser.add_argument('--seed', type=int, default=42, help='Random seed.')
