@@ -106,7 +106,7 @@ python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.det
 python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n database
 python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n textmining
 
-python attribute_data_preprocess.py -data_path ../data -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab
+python attribute_data_preprocess.py -data_path ../data -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot 'uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab'
 ```
 
 The resulting files are `human_annot.mat` for datasets and labels, `human_net_*.mat` for adjacency matices, and `features.npy` for protein attributes.
