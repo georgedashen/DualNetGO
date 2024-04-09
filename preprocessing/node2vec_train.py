@@ -7,9 +7,9 @@ from tqdm import tqdm
 
 parser = argparse.ArgumentParser('node2vec embedding generator for ppi')
 parser.add_argument('--org', default='human', help='organism')
-parser.add_argument('--dataset_dir', default='../Dataset', help='dir of dataset')
+parser.add_argument('--dataset_dir', default='../data', help='dir of dataset')
 parser.add_argument('--evidence', default='combined', choices = ['neighborhood','fusion','cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], help='what evidence is used to construct the PPI graph')
-parser.add_argument('--epoch', type=int, default=20, help='organism')
+parser.add_argument('--epoch', type=int, default=20)
 args = parser.parse_args()
 
 adj = sio.loadmat(f'{args.dataset_dir}/{args.org}/{args.org}_net_'+args.evidence+'.mat', squeeze_me=True)
