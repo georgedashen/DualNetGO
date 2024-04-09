@@ -53,7 +53,7 @@ def get_ssl_datasets(args):
     pf = os.path.join(args.dataset_dir, ppmi)
     N = sio.loadmat(pf, squeeze_me=True)
     X = N['Net'].todense()
-    X = minmax_scale(X)
+    X = minmax_scale(np.asarray(X))
     #X = np.hstack((X,Z))
 
     full_X = torch.from_numpy(X)
@@ -86,7 +86,7 @@ def get_datasets(args):
     pf = os.path.join(args.dataset_dir, ppmi)
     N = sio.loadmat(pf, squeeze_me=True)
     X = N['Net'].todense()
-    X = minmax_scale(X)
+    X = minmax_scale(np.asarray(X))
     #X = np.hstack((X,Z))
     
     #========load label===========
