@@ -96,18 +96,18 @@ For generating adjacency matrices from PPI networks, retrieving protein Pfam dom
 ```
 cd prepocessing
 
-python annotation_preprocess.py -data_path ../data -af goa_human.gaf -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -stl 41
+python annotation_preprocess.py -data_path ../data -af goa_human.gaf -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt.gz -org human -stl 41
 
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n combined
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n neighborhood
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n fusion
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n cooccurence
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n coexpression
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n experimental
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n database
-python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt -org human -n textmining
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt.gz -org human -n combined
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt.gz -org human -n neighborhood
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt.gz -org human -n fusion
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt.gz -org human -n cooccurence
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt.gz -org human -n coexpression
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt.gz -org human -n experimental
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt.gz -org human -n database
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v11.5.txt.gz -org human -n textmining
 
-python attribute_data_preprocess.py -data_path ../data -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot 'uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab'
+python attribute_data_preprocess.py -data_path ../data -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt.gz -org human -uniprot 'uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab'
 ```
 
 The resulting files are `human_annot.mat` for datasets and labels, `human_net_*.mat` for adjacency matices, and `features.npy` for protein attributes.
