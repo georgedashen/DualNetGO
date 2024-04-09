@@ -56,6 +56,7 @@ parser.add_argument('--step1_iter',type=int, default=400, help='Step-1 iteration
 parser.add_argument('--step2_iter',type=int, default=20, help='Step-2 iterations')
 parser.add_argument('--max_feat_select',type=int, default=5, help='Maximum feature matrices that can be selected.')
 parser.add_argument('--num_adj',type=int, default=2, help='Number of sparse adjacency matrices(including powers) as input')
+parser.add_argument('--patience',type=int, default=100)
 parser.add_argument('--modeldir',type=str, default='mouse_trained', help='folder to save the trained model')
 parser.add_argument('--resultdir',type=str, default='.', help='folder to save the csv result')
 parser.add_argument('--out',type=str, default='results_mouse.csv', help='csv result')
@@ -104,7 +105,6 @@ device = torch.device(cudaid)
 checkpt_file = f'{args.modeldir}/iter1_{args.step1_iter}_iter2_{args.step2_iter}_feat_{args.max_feat_select}_epoch{args.epochs}_{args.aspect}_{args.embedding}_seed{args.seed}.pt'
 
 #set number of adjacency matrices in the input data
-is_directed = bool(args.directed)
 num_adj = int(args.num_adj)
 
 def scipy_to_tensor(mat):
