@@ -15,7 +15,10 @@ import gzip
 import networkx as nx
 
 def get_proteins(protein_file):
-    f = open(protein_file, 'r')
+    if protein_file.endswith('.gz'):
+        f = gzip.open(protein_file, 'rb')
+    elif protein_file.endswith('.txt'):
+        f = open(protein_file, 'r')
     f.readline()
     f_data = f.readlines()
     f.close()
@@ -37,9 +40,9 @@ def get_proteins(protein_file):
 
 def get_ppi_proteins(ppi_file, org, data_path):
     if ppi_file.endswith('.gz'):
-        f = gzip.open(filename, 'rb')
+        f = gzip.open(ppi_file, 'rb')
     elif ppi_file.endswith('.txt'):
-        f = open(filename, 'r')
+        f = open(ppi_file, 'r')
     f.readline()
     f_data = f.readlines()
     #f_data = f_data[:1000]
