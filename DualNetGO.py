@@ -101,7 +101,6 @@ device = torch.device(cudaid)
 checkpt_file = f'{args.modeldir}/iter1_{args.step1_iter}_iter2_{args.step2_iter}_feat_{args.max_feat_select}_epoch{args.epochs}_{args.aspect}_{args.embedding}_seed{args.seed}.pt'
 
 #set number of adjacency matrices in the input data
-is_directed = bool(args.directed)
 num_adj = int(args.num_adj)
 
 def scipy_to_tensor(mat):
