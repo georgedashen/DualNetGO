@@ -56,6 +56,7 @@ parser.add_argument('--step1_iter',type=int, default=400, help='Step-1 iteration
 parser.add_argument('--step2_iter',type=int, default=20, help='Step-2 iterations')
 parser.add_argument('--max_feat_select',type=int, default=5, help='Maximum feature matrices that can be selected.')
 parser.add_argument('--num_adj',type=int, default=7, help='Number of sparse adjacency matrices(including powers) as input')
+parser.add_argument('--patience',type=int, default=100)
 parser.add_argument('--modeldir',type=str, default='human_trained', help='folder to save the trained model')
 parser.add_argument('--resultdir',type=str, default='.', help='folder to save the csv result')
 parser.add_argument('--out',type=str, default='results.csv', help='csv result')
