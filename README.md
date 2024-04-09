@@ -27,6 +27,8 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 * termcolor==2.4.0
 ```
 
+For installing torch-1.10.1+cu111, please go to the pytorch official website and find the corresponding version in the **previous-versions** site. Or you can use the command `pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html` provided by the website.
+
 If installation failed for torch-scatter, you can try to install with `pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-1.10.1+cu111.html` and replace the torch and cuda version with your own one.
 
 ## Quick run
