@@ -12,7 +12,7 @@ import pickle
 
 parser = argparse.ArgumentParser('GAE embedding generator for ppi')
 parser.add_argument('--org', default='human', help='organism')
-parser.add_argument('--dataset_dir', default='../Dataset', help='dir of dataset')
+parser.add_argument('--dataset_dir', default='../data', help='dir of dataset')
 parser.add_argument('--evidence', default='combined', choices = ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], help='what evidence is used to construct the PPI graph')
 args = parser.parse_args()
 
