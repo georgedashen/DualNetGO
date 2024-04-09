@@ -272,6 +272,18 @@ def main_worker(args, logger):
     torch.save(pre_model, args.output + '/' + args.org + '_attention_layers_' + str(args.attention_layers) + '_lr_' + str(args.lr) + '_seed_' + str(args.seed) + \
                '_activation_' + str(args.activation) + '_model_' + args.evidence + '.pkl')
 
+    with torch.no_grad():
+        pre_model.eval()
+        output = []
+        for i, proteins in enumerate(full_loader):
+            proteins[0] = proteins[0].cuda()
+            proteins[1] = proteins[1].cuda()
+            rec, hs = pre_model(proteins)
+            output.append(hs[1])
+        output = torch.cat(output,dim=0)
+        output = output.detach().cpu().numpy()
+    np.save(f'../data/{args.org}/{args.org}_net_{args.evidence}_AE.npy', output)
+
 def pre_train(full_loader, pre_model, pre_criterion, optimizer, steplr, epoch, args, logger):
     losses = AverageMeter('Loss', ':5.3f')
 
