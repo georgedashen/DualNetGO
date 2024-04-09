@@ -21,10 +21,10 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 * torch==1.10.1+cu111
 * torch-geometric==2.0.0
 * torch-sparse==0.6.13
-* torch-scatter==2.1.2
+* torch-scatter==2.1.1
 * torchaudio==0.10.1+cu111
 * torchvision==0.11.2+cu111
-* termcolor==2.4.0
+* termcolor==2.3.0
 ```
 
 For installing torch-1.10.1+cu111, please go to the pytorch official website and find the corresponding version in the **previous-versions** site. Or you can use the command `pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html` provided by the website.
