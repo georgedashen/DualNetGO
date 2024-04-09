@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser('GAE embedding generator for ppi')
 parser.add_argument('--org', default='human', help='organism')
 parser.add_argument('--dataset_dir', default='../data', help='dir of dataset')
 parser.add_argument('--evidence', default='combined', choices = ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], help='what evidence is used to construct the PPI graph')
+parser.add_argument('--epoch', type=int, default=20)
 args = parser.parse_args()
 
 adj = sio.loadmat(f'{args.dataset_dir}/{args.org}/{args.org}_net_{args.evidence}.mat', squeeze_me=True)
@@ -80,7 +81,7 @@ def train():
         total_loss += loss.item()
     return total_loss / len(train_loader)
 
-for epoch in range(1,20):
+for epoch in range(1,args.epoch+1):
     loss = train()
     print(f'Epoch: {epoch:02d}, Loss: {loss:.4f}')
 
