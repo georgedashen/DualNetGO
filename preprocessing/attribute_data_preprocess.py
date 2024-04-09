@@ -11,7 +11,7 @@ import os
 import scipy.io as sio
 import pandas as pd
 import pickle
-
+import gzip
 import networkx as nx
 
 def get_proteins(protein_file):
@@ -36,7 +36,10 @@ def get_proteins(protein_file):
     return protein_name2extname_dic, protein_extname2name_dic
 
 def get_ppi_proteins(ppi_file, org, data_path):
-    f = open(ppi_file, 'r')
+    if ppi_file.endswith('.gz'):
+        f = gzip.open(filename, 'rb')
+    elif ppi_file.endswith('.txt'):
+        f = open(filename, 'r')
     f.readline()
     f_data = f.readlines()
     #f_data = f_data[:1000]
