@@ -165,7 +165,13 @@ CUDA_VISIBLE_DEVICES=0 python DualNetGO_mouse.py --org mouse --step1_iter 100 --
 
 `CUDA_VISIBLE_DEVICES=0` specifies the GPU card to use. `step1_iter` and `step2_iter` are the epoch number for stage 1 and stage 2, respectively. `epochs` controls the epoch number for stage 3, which is the summed number of epochs for stage 2 and 3.
 
-For testing the evidence-centric model, use `DualNetGO_evidence.py` and make sure that all four embeddings include AE, MLPAE, node2vec and GAE exist. The `DualNetGO_output.py` is used for generating additional AUPR values of each GO terms.
+For testing the evidence-centric model, use `DualNetGO_evidence.py` and make sure that all four embeddings include AE, MLPAE, node2vec and GAE exist. 
+
+```
+CUDA_VISIBLE_DEVICES=0 python DualNetGO_evidence.py --org human --aspect P --evidence combined --step1_iter 100 --step2_iter 50 --epochs 100 --max_feat_select 4 --num_adj 5 --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01 --hidden 512 --lr_sel 0.01
+```
+
+The `DualNetGO_output.py` is used for generating additional AUPR values of each GO terms.
 
 For those who are interested in reproducing the best results with TransformerAE or other embedding methods, run `sh experiment_best.sh` for human and `sh experiment_best_mouse.sh` for mouse. Remember to modify the proper device id in `CUDA_VISIBLE_DEVICES=[device_id]` to specify which gpu card to be used.
 
