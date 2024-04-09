@@ -40,7 +40,7 @@ import csv
 def parser_args():
     parser = argparse.ArgumentParser(description='CFAGO self-supervised Training')
     parser.add_argument('--org', help='organism')
-    parser.add_argument('--dataset_dir', help='dir of dataset', default='../Dataset/human')
+    parser.add_argument('--dataset_dir', help='dir of dataset', default='../data')
     parser.add_argument('--aspect', type=str, choices=['P', 'F', 'C'], help='GO aspect')
     parser.add_argument('--evidence', default='combined', choices = ['neighborhood', 'fusion','cooccurence', 'coexpression', 'experimental', 'database', 'textmining', 'combined'], help='what evidence is used to construct the PPI graph')
     parser.add_argument('--output', metavar='DIR', 
@@ -302,9 +302,9 @@ def main_worker(args, logger):
         output = output.detach().cpu().numpy()
 
     if args.feature:
-        np.save(f'../Dataset/{args.org}/{args.org}_net_feature_MLPAE.npy', output)
+        np.save(f'{args.dataset_dir}/{args.org}/{args.org}_net_feature_MLPAE.npy', output)
     else:
-        np.save(f'../Dataset/{args.org}/{args.org}_net_{args.evidence}_MLPAE.npy', output)
+        np.save(f'{args.dataset_dir}/{args.org}/{args.org}_net_{args.evidence}_MLPAE.npy', output)
 
             
 
