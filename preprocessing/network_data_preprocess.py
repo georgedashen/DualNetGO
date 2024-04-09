@@ -19,7 +19,10 @@ def _load_network(filename, name, mtrx='adj'):
         graphs = []
         for name in net_names:
             graphs.append(nx.Graph(name=name))
-        fRead = open(filename, 'r')
+        if filename.endswith('.gz'):
+            fRead = gzip.open(filename, 'rb')
+        elif filename.endswith('.txt'):
+            fRead = open(filename, 'r')
         fRead.readline()
         for i, line in tqdm(enumerate(fRead)):
             splitted = line.strip().split()
