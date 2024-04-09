@@ -74,8 +74,8 @@ class Classifier_evidence(nn.Module):
         self.act_fn = nn.ReLU()
         self.device = device
 
-
-     def forward(self,list_mat,layer_norm,list_ind):
+    
+    def forward(self,list_mat,layer_norm,list_ind):
 
         list_out = list()
         device = self.device
