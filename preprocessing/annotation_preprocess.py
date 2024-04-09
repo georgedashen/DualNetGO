@@ -8,13 +8,17 @@ Created on Sat Feb 12 11:14:15 2022
 import argparse
 import numpy as np
 import os
+import gzip
 import scipy.io as sio
 import networkx as nx
 import pickle
 from scipy import sparse
 
 def get_proteins(protein_file):
-    f = open(protein_file, 'r')
+    if protein_file.endswith('.gz'):
+        f = gzip.open(protein_file, 'rb')
+    elif protein_file.endswith('.txt'):
+        f = open(protein_file, 'r')
     f.readline()
     f_data = f.readlines()
     f.close()
@@ -32,7 +36,10 @@ def get_proteins(protein_file):
     return protein_name_dic
 
 def get_ppi_proteins(ppi_file, org, data_path):
-    f = open(ppi_file, 'r')
+    if ppi_file.endswith('.gz'):
+        f = gzip.open(ppi_file, 'rb')
+    elif ppi_file.endswith('.txt'):
+        f = open(ppi_file, 'r')
     f.readline()
     f_data = f.readlines()
     f.close()
