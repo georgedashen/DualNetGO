@@ -376,7 +376,7 @@ def train(list_train_mat,list_val_mat,list_test_mat,list_label,num_nodes,num_fea
 
 ## main process =====================================================
 acc_list = []
-Annot = sio.loadmat(f'data/{args.org}_annot.mat', squeeze_me=True)
+Annot = sio.loadmat(f'data/{args.org}/{args.org}_annot.mat', squeeze_me=True)
 train_idx = Annot['indx'][args.aspect].tolist()['train'].tolist().tolist()
 valid_idx = Annot['indx'][args.aspect].tolist()['valid'].tolist().tolist()
 test_idx = Annot['indx'][args.aspect].tolist()['test'].tolist().tolist()
@@ -386,28 +386,31 @@ labels_valid = np.array(Annot['GO'][args.aspect].tolist()['valid'].tolist())
 labels_test = np.array(Annot['GO'][args.aspect].tolist()['test'].tolist())
 
 
-
 # load adj_mat or embedding:
 # embeddings
 list_mat = []
 for n in ['node2vec','GAE','MLPAE','AE']:
-    fn = f'data/{args.org}_net_{args.evidence}_{n}.npy'
+    fn = f'data/{args.org}/{args.org}_net_{args.evidence}_{n}.npy'
     y = np.load(fn)
     list_mat.append(y)
 del y
 
 
-fn = f'data/{args.org}_net_{args.evidence}.mat'
+fn = f'data/{args.org}/{args.org}_net_{args.evidence}.mat'
 y = sio.loadmat(fn, squeeze_me=True)
 y = y['Net'].todense()
-y = minmax_scale(y)
+y = minmax_scale(np.asarray(y))
 list_mat.append(y)
 del y
 
 
 # load features
-with open(f'data/features_{args.org}.npy', 'rb') as f:
-    Z = pickle.load(f)
+if args.org == 'mouse':
+    with open(f'data/{args.org}/features_mouse.npy', 'rb') as f:
+        Z = pickle.load(f)
+else:
+    with open(f'data/{args.org}/features.npy', 'rb') as f:
+        Z = pickle.load(f)
 list_mat.append(Z)
 del Z
 
