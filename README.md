@@ -38,11 +38,11 @@ Here is an example for reproducing the results of human reported in the script u
 
 ```
 # using GPU
-CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --org human --step1_iter 300 --step2_iter 10 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect P --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01  --hidden 512 --lr_sel 0.01 --embedding AE --modeldir human_best --out results_human_best.csv
+CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --step1_iter 300 --step2_iter 10 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect P --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01  --hidden 512 --lr_sel 0.01 --embedding AE --modeldir human_best --out results_human_best.csv
 
-CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --org human --step1_iter 100 --step2_iter 40 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect F --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01  --hidden 512 --lr_sel 0.01 --embedding AE --modeldir human_best --out results_human_best.csv
+CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --step1_iter 100 --step2_iter 40 --max_feat_select 4 --num_adj 7 --epochs 100 --aspect F --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01  --hidden 512 --lr_sel 0.01 --embedding AE --modeldir human_best --out results_human_best.csv
 
-CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --org human --step1_iter 500 --step2_iter 80 --max_feat_select 3 --num_adj 7 --epochs 100 --aspect C --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01 --hidden 512 --lr_sel 0.01 --embedding AE --modeldir human_best --out results_human_best.csv
+CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --step1_iter 500 --step2_iter 80 --max_feat_select 3 --num_adj 7 --epochs 100 --aspect C --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.01 --lr_fc2 0.01 --hidden 512 --lr_sel 0.01 --embedding AE --modeldir human_best --out results_human_best.csv
 
 # Fmax Results: BP 0.459, MF 0.226, CC 0.464
 # Best masks: BP [3,5,6], MF [3,4,6], CC [0,2]
