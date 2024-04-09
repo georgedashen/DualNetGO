@@ -37,7 +37,7 @@ def get_proteins(protein_file):
 
 def get_ppi_proteins(ppi_file, org, data_path):
     if ppi_file.endswith('.gz'):
-        f = gzip.open(ppi_file, 'rb')
+        f = gzip.open(ppi_file, 'rt')
     elif ppi_file.endswith('.txt'):
         f = open(ppi_file, 'r')
     f.readline()
