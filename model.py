@@ -98,6 +98,8 @@ class Classifier_evidence(nn.Module):
         out = self.fc2(out)
         out = F.normalize(out,p=2,dim=1)
         out = self.act_fn(out)
+        out = F.dropout(out,self.dropout3,training=self.training)
+        out = self.fc3(out)
         
         return F.log_softmax(out, dim=1)
 
