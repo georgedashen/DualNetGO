@@ -21,7 +21,11 @@ adj = sio.loadmat(f'{args.dataset_dir}/{args.org}/{args.org}_net_{args.evidence}
 adj = adj['Net'].todense()
 edge_index = torch.tensor(adj).nonzero().t().contiguous()
 
-feature_file = f'{args.dataset_dir}/{args.org}/features.npy'
+if args.org == 'mouse':
+    feature_file = f'{args.dataset_dir}/{args.org}/features_mouse.npy'
+else:
+    feature_file = f'{args.dataset_dir}/{args.org}/features.npy'
+    
 with open(feature_file, 'rb') as f:
     x = pickle.load(f)
 x = torch.tensor(x).float()
