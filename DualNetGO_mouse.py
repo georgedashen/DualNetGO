@@ -408,7 +408,7 @@ else:
 
 
 # load features
-with open('data/mouse/features.npy', 'rb') as f:
+with open('data/mouse/features_mouse.npy', 'rb') as f:
     Z = pickle.load(f)
 list_mat.append(Z)
 del Z
