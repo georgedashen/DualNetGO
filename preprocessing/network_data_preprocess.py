@@ -182,7 +182,7 @@ if __name__ == "__main__":
         os.mkdir(od)
     
     # Load STRING networks
-    Nets = load_networks(filename, margs.evidence)
+    Nets = load_networks(filename, margs.name)
 
     print ("### Writing output to file...")
     save_file = margs.data_path + '/' + margs.organism + '/' + margs.organism + '_net_' + margs.name +'.mat'
