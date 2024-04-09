@@ -143,7 +143,7 @@ cd preprocessing
 
 python node2vec_train.py --org human --evidence combined
 
-python GAE_train_loader.py --org human --evidence combined
+python GAE_train_sampler.py --org human --evidence combined
 ```
 
 ```
