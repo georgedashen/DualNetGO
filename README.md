@@ -96,7 +96,7 @@ python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.det
 python attribute_data_preprocess.py -data_path ../data -pf 9606.protein.info.v11.5.txt -ppif 9606.protein.links.detailed.v11.5.txt -org human -uniprot uniprot-filtered-reviewed_yes+AND+organism__Homo+sapiens+(Human)+[96--.tab
 ```
 
-The resulting files are `human_annot.mat` for datasets and labels, `human_net_*.mat` for adjacency matices, and `features.npy` for protein attributes.
+The resulting files are `human_annot.mat` for datasets and labels, `human_net_*.mat` for adjacency matices, and `human_features.npy` for protein attributes.
 
 For mouse please use the data with **10090** taxonomy code, and `mgi.gaf` as the annotation file. Uniprot file for mouse is `uniprot-download_true_fields_accession_2Creviewed_2Csequence_2Cxref_-2022.06.29-08.34.18.65`.
 
