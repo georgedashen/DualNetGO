@@ -8,6 +8,7 @@ import networkx as nx
 import scipy.io as sio
 import argparse
 import os
+import gzip
 from scipy import sparse
 from tqdm import tqdm
 
