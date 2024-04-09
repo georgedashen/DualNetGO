@@ -40,10 +40,13 @@ class multimodesFullDataset(Dataset):
 def get_ssl_datasets(args):
     'retrun self-supervised data'
     #=========load feature==========
-    feature_file = args.dataset_dir + '/features.npy'
+    if args.org == 'mouse':
+        feature_file = args.dataset_dir + '/features_mouse.npy'
+    else:
+        feature_file = args.dataset_dir + '/features.npy'
     with open(feature_file, 'rb') as f:
         Z = pickle.load(f)
-    Z = minmax_scale(Z)
+    Z = minmax_scale(np.asarray(Z))
     
     #=========load PPMIs========
     ppmi = args.org + '_net_' + args.evidence + '.mat'
@@ -70,10 +73,13 @@ def get_datasets(args):
     Annot = sio.loadmat(args.dataset_dir + '/' + args.org + '_annot.mat', squeeze_me=True)
     
     #=========load feature==========
-    feature_file = args.dataset_dir + '/features.npy'
+    if args.org == 'mouse':
+        feature_file = args.dataset_dir + '/features_mouse.npy'
+    else:
+        feature_file = args.dataset_dir + '/features.npy'
     with open(feature_file, 'rb') as f:
         Z = pickle.load(f)
-    Z = minmax_scale(Z)
+    Z = minmax_scale(np.asarray(Z))
     
     #=========load PPMIs========
     ppmi = args.org + '_net_' + args.evidence + '.mat'
