@@ -37,20 +37,19 @@ If installation failed for torch-scatter (also for torch-sparse or torch-cluster
 
 We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. We use the **blastp** tool from NCBI to search for a most similar sequence in our dataset as a replacement for a sequence that not exists in the any PPI network. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
 
-If you have already performed blastp research against the provided dataset and had the `*query_results.txt` file in `--resultdir`, which we have provided, run the following script. You can also run it without the `--txt` argument, then the `--txt` will be detected automatically in the `--resultdir`.
+If you have already performed blastp research against the provided dataset and had the `*query_results.txt` file in `--resultdir`, which we have provided, run the following script. You can also run it without the `--txt` argument, then the `--txt` file will be detected automatically in the `--resultdir` folder.
 
 ```
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --txt data/cafa3/cc_query_results.txt --resultdir test
 ```
 
-Or use the following script if you want to use a custom `.fasta` file as input, with an example we provided:
+Or use the following script if you want to use a custom `--fasta` file as input, with an example we provided:
 
 ```
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --fasta data/cafa3/cc-test.fasta --resultdir test
 ```
 
-
-All feature matrices for sequences in the `--fasta` file will be gathered according to the blastp results and stored in the `--resultdir` folder. Two result files are generated: one for the score matrix in `.npy` format and one for tabular output containing query sequence ids in fasta file, GO terms and prediction scores as columns. The second file is ready for CAFA competition submission.
+All feature matrices for sequences in the `--fasta` file will be gathered according to the blastp results and stored in the `--resultdir` folder. Two result files are generated: one for the **score matrix** in `.npy` format and one for **tabular output** containing query sequence ids in fasta file, GO terms and prediction scores as columns. The second file is ready for CAFA competition submission.
 
 
 **Note: Before running following codes, please make sure corresponding [processed_data](https://zenodo.org/records/10526397) has been downloaded, extracted, and placed in the 'data' folder.**
