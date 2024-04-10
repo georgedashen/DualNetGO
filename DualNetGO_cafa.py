@@ -509,42 +509,33 @@ if args.fasta and not args.txt:
     cmd_blast = f'blastp -db data/cafa3/cafa3_string_prot_set -query {args.fasta} -out {args.resultdir}/{args.aspect}_query_results.txt -outfmt 6 -max_target_seqs 1'
     os.system(cmd_blast)
 
+
+# parse blastp results
 if args.txt:
-    fRead = open(args.txt, 'r')
+    df = pd.read_csv(args.txt,sep='\t',header=None)
 else:
-    fRead = open(f'{args.resultdir}/{args.aspect}_query_results.txt', 'r')
-
-
-query_id = []
-target_id = []
-'''
-for i, line in tqdm(enumerate(fRead)):
-    splitted = line.strip().split('\t')
-    if splitted[0] not in query_id:
-        query_id.append(splitted[0])
-        target_id.append(splitted[1])
-'''
-df = pd.read_csv(f'{args.resultdir}/{args.aspect}_query_results.txt',sep='\t',header=None)
+    df = pd.read_csv(f'{args.resultdir}/{args.aspect}_query_results.txt',sep='\t',header=None)
 idx = ~df.duplicated(subset=0)
 query_id = df.iloc[:,0][idx].values
 target_id = df.iloc[:,1][idx].values
-string_df = pd.read_csv('data/all_proteins_id.csv')
-test_idx = []
-test_taxo = []
-#can be easier if all embeddings are saved as one file with the id order in all_proteins_id.csv
-for i in target_id:
-    s = string_df['taxo'][np.where(string_df['string']==i)[0][0]]
-    df_t = string_df[string_df['taxo']==s]
-    test_idx.append(np.where(df_t['string']==i)[0][0])
-    test_taxo.append(s)
 
 
-#read netowrk embeddings
-list_train_mat = []
-list_val_mat = []
+# retrieve test indices in all proteins string id list
+string_df = pd.read_csv('data/cafa3/all_proteins_id.csv')
+taxo_list, off_set = np.unique(string_df['taxo'].values, return_index=True)
+off_set_dict = {}
+for A,B in zip(taxo_list,off_set):
+    off_set_dict[A] = B
+string_df['offset'] = [off_set_dict[i] for i in string_df['taxo'].values]
+test_idx = string_df.reset_index().groupby('string')['index'].first()[target_id].values
+test_taxo = string_df['taxo'].values[test_idx]
+test_idx -= string_df['offset'].values[test_idx]
 
+
+# read preprocessed train/valid data if in 'train' mode 
 if args.mode == 'train':
-    #do not need this for eval mode
+    list_train_mat = []
+    list_val_mat = []
     for e in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining']:
         fn = f'data/cafa3/{args.aspect}_train_all_net_{e}_{args.embedding}.npy'
         fv = f'data/cafa3/{args.aspect}_valid_all_net_{e}_{args.embedding}.npy'
@@ -563,7 +554,7 @@ if args.mode == 'train':
 
 
 list_test_mat = []
-# it would be easier to have several big matrices, but the memory on disk would reduce
+# it would be easier to have several big matrices, but the memory on disk would not reduce
 for e in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental', 'database', 'textmining']:
     fo = f'{args.resultdir}/{args.aspect}_test_net_{e}_{args.embedding}.npy'
     if os.path.exists(fo):
