@@ -34,7 +34,6 @@ import csv
 import aslloss
 from validation import evaluate_performance
 
-from comet_ml import Experiment #comment this if not needed
 
 warnings.filterwarnings("ignore") #temporary ignoring warning from torch_sparse
 
@@ -130,6 +129,7 @@ else:
 
 # set comet_ml, default turn off, make sure to use your own API_token in comet_ml
 if args.comet and dist_rank==0:
+    from comet_ml import Experiment #comment this if not needed
     with open('/home/zhuoyang/comet_API_token','r') as f:
         experiment = Experiment(f.read().rstrip(), project_name="DualNetGO_cafa3")
         experiment.set_name(f'{args.org}_iter1_{args.step1_iter}_iter2_{args.step2_iter}_feat_{args.max_feat_select}_epoch{args.epochs}_{args.aspect}_{args.embedding}_seed{args.seed}')
