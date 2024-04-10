@@ -32,9 +32,7 @@ For installing torch-1.10.1+cu111, please go to the pytorch official website and
 
 If installation failed for torch-scatter (also for torch-sparse or torch-cluster), you can try to install with `pip install torch-scatter==2.1.1 -f https://pytorch-geometric.com/whl/torch-1.10.1+cu111.html` and replace the torch and cuda version with your own one.
 
-## Quick run
-
-### General Prediction (CAFA3 settings)
+## Quick run for CAFA3 prediction
 
 **Note: Please make sure pretrained models and processed data are downloaded before performing prediction. They are stored in the cafa3 zip file on zenodo. Put it in the 'data' folder and extract all files.**
 
@@ -54,7 +52,7 @@ CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --fast
 
 All feature matrices for sequences in the `--fasta` file will be gathered according to the blastp results and stored in the `--resultdir` folder. Two result files are generated: one for the **score matrix** in `.npy` format and one for **tabular output** containing query sequence ids in fasta file, GO terms and prediction scores as columns. The second file is ready for CAFA competition submission.
 
-### Reproduce results for human/mouse with single-species model
+## Reproducing results for human/mouse with single-species models
 
 **Note: Before running following codes, please make sure corresponding [processed_data](https://zenodo.org/records/10526397) has been downloaded, extracted, and placed in the 'data' folder.**
 
