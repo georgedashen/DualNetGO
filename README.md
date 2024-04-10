@@ -118,9 +118,11 @@ The resulting files are `human_annot.mat` for datasets and labels, `human_net_*.
 
 For mouse please use the data with **10090** taxonomy code, and `mgi.gaf` as the annotation file. Uniprot file for mouse is `uniprot-download_true_fields_accession_2Creviewed_2Csequence_2Cxref_-2022.06.29-08.34.18.65`.
 
-If you are using the STRING v12.0 data or aiming for multi-species training, please download all files according to our supplementary materials and rename if neccesary, and arrange them like those in the provided `cafa3` folder, which use taxonomy codes as folder names. Use the corresponding taxonomy code instead for the `--org` argument anywhere, eg. '9606' for 'huamn'. Remember to use the `attribute_data_preprocessing_new.py` instead for generating Uniprot Pfam/subloc annotations if you are using lastest data.
+If you are using the STRING v12.0 data or aiming for multi-species training, please download all files according to our supplementary materials and rename if neccesary, and arrange them like those in the provided `cafa3` folder, which use taxonomy codes as folder names. Use the corresponding taxonomy code instead for the `--org` argument anywhere, eg. '9606' for 'huamn'. Remember to use the `attribute_data_preprocessing_new.py` instead for generating Uniprot Pfam/subloc annotations if you are using lastest data. Here we provide an example for preprocessing newest collected data from STRING v12.0, Uniprot and QuickGO.
 
 ```
+python annotation_preprocess.py -data_path ../data -af QuickGO-annotations-9606.gaf -pf 9606.protein.info.v12.0.txt.gz -ppif 9606.protein.links.detailed.v12.0.txt.gz -org 9606 -stl 11
+python network_data_preprocess.py -data_path ../data -snf 9606.protein.links.detailed.v12.0.txt.gz -org 9606 -n fusion
 python attribute_data_preproces_news.py -data_path ../data -pf 9606.protein.info.v12.0.txt.gz -ppif 9606.protein.links.detailed.v12.0.txt.gz -org 9606 -uniprot uniprotkb_reviewed_true_AND_taxonomy_id_9606.tsv
 ```
 
@@ -158,10 +160,13 @@ python GAE_train_sampler.py --org human --evidence combined
 
 ```
 #for MLPAE
+
 cd CFAGO
 
 python self_supervised_leaning_MLPAE.py --org human --dataset_dir ../data/human --output human_MLPAE_result --dist-url tcp://127.0.0.1:3723 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 100 --lr 1e-5 --evidence combined
 ```
+
+For newest collected data, replace 'human' with '9606' or taxonomy code for other species and modify the output directory in `--output`.
 
 ## 3. Training and Prediction
 
