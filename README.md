@@ -37,13 +37,16 @@ If installation failed for torch-scatter (also for torch-sparse or torch-cluster
 
 We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. We use the **blastp** tool from NCBI to search for a most similar sequence in our dataset as a replacement for a sequence that not exists in the any PPI network. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
 
-To use a `.fasta` file as input:
+To use a `.fasta` file as input or a `.txt` blastp output as input:
 
 ```
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --fasta data/cafa3/cc-test.fasta --resultdir test
+
+# or use the following if you already perform blastp against the provided dataset and have the .txt result in --resultdir
+CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --resultdir test
 ```
 
-All feature matrices for sequences in the `--fasta` file will be gathered according to the blastp results and stored in the `--resultdir` folder. Two files, one for the score matrix in `.npy` format and one for tabular output containing query sequence ids in fasta file, GO terms and prediction scores as columns. The second file is ready for CAFA competition submission.
+All feature matrices for sequences in the `--fasta` file will be gathered according to the blastp results and stored in the `--resultdir` folder. Two result files are generated: one for the score matrix in `.npy` format and one for tabular output containing query sequence ids in fasta file, GO terms and prediction scores as columns. The second file is ready for CAFA competition submission.
 
 
 **Note: Before running following codes, please make sure corresponding [processed_data](https://zenodo.org/records/10526397) has been downloaded, extracted, and placed in the 'data' folder.**
