@@ -33,28 +33,14 @@ For installing torch-1.10.1+cu111, please go to the pytorch official website and
 If installation failed for torch-scatter (also for torch-sparse or torch-cluster), you can try to install with `pip install torch-scatter==2.1.1 -f https://pytorch-geometric.com/whl/torch-1.10.1+cu111.html` and replace the torch and cuda version with your own one.
 
 ## Quick run
-We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. Please make sure pretrained models and processed data are downloaded before performing prediction. We use the **blastp** tool from NCBI to search for a most similar sequence in the our dataset as a replacement for a sequence not exists in the any PPI network. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
+**Note: Please make sure pretrained models and processed data are downloaded before performing prediction. They are stored in the cafa3 zip file on zenodo. Put it in the data folder and extract all files**
+We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. We use the **blastp** tool from NCBI to search for a most similar sequence in our dataset as a replacement for a sequence that not exists in the any PPI network. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
 
+To use a `.fasta` file as input:
 ```
-CUDA_VISIBLE_DEVICES=0 python DualNetGO_batch_DDP_cafa.py --step1_iter 100 --step2_iter 20 --max_feat_select 3 --num_adj 7 --aspect C --dropout1 0.5 --dropout2 0.5 --dropout3 0.1 --lr_fc1 0.001 --lr_fc2 0.001  --hidden 1024 --lr_sel 0.01 --parallel 0 --noeval_in_train --batch 128 --fasta data/cc_CFAGO_human_test.fasta
+CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --fasta data/cafa3/cc-test.fasta --resultdir test
 ```
-
-
-We use the FASTA file for human test set on CC aspect as an example:
-
-```
-#make sure the blast tool has been installed, check by running 'blastp -h' in the terminal
-
-CUDA_VISIBLE_DEVICES=0 python DualNetGO_fasta.py --fasta ./data/human_C_test.fa --org human --aspect C --checkpoint ./human_best/iter1_500_iter2_80_feat_3_epoch100_C_AE_seed42.pt --out prediction.csv
-```
-
-The output file contains protein_ids in the FASTA file, GO terms used in this study and their corresponding prediction scores. The file is ready for CAFA submission, but please note that this study does not aim for the CAFA competition.
-
-If one does not want to perform blast in the terminal, we also provide the FASTA file for all proteins in human and mouse in the `data` folder. After querying the FASTA file against the provided dataset eg. human.fa, please filter the result first to make sure only the one with highest score or identity remained, and run the following (replace the query_result_human.txt with your blast result, should be in tabular format):
-
-```
-CUDA_VISIBLE_DEVICES=0 python DualNetGO_fasta.py --txt query_result_human.txt --org human --aspect C --checkpoint ./human_best/iter1_500_iter2_80_feat_3_epoch100_C_AE_seed42.pt --out prediction.csv
-```
+All feature matrices for sequences in the `--fasta` file will be gathered according to the blastp results and stored in the `--resultdir` folder. Two files, one for the score matrix in `.npy` format and one for tabular output containing query sequence ids in fasta file, GO terms and prediction scores as columns. The second file is ready for CAFA competition submission.
 
 
 Note: Before running following codes, please make sure corresponding [processed_data](https://zenodo.org/records/10526397) has been downloaded, extracted, and placed in the **data** folder.
