@@ -201,7 +201,7 @@ As some of the famous network-based methods were derived early and not implement
 
 ## 5. Training DualNetGO for CAFA3 multi-species prediction
 
-Processed CAFA3 training, validation and test datasets are provided by the TEMPROT (Oliveira et. al., 2023) paper.
+Processed CAFA3 training, validation and test datasets are provided by the TEMPROT (Oliveira et. al., 2023) paper. We have included them in our data, and you can find them [here](https://zenodo.org/records/7409660).
 
 For detailed data collection for STRING ppi files, Uniprot annotations and GO annotations, please refer to the Supplementary Materials. We assume that before training, each of the 15 species has its own TransformedAE model trained, and corresponding graph hidden states **.npy** object has been generated and stored in its own folder in `data`. If not, please refer to Section **1. Data preprocessing** and **2. Graph embedding**. Note: To reduce the TransformerAE training time, we use the epoch **500** instead of 5000 in the original setting.
 
