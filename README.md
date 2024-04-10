@@ -52,6 +52,10 @@ CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --fast
 
 All feature matrices for sequences in the `--fasta` file will be gathered according to the blastp results and stored in the `--resultdir` folder. Two result files are generated: one for the **score matrix** in `.npy` format and one for **tabular output** containing query sequence ids in fasta file, GO terms and prediction scores as columns. The second file is ready for CAFA competition submission.
 
+For training the DualNetGO model under the CAFA3 multi-species setting from scratch, please refer to the final section.
+
+
+
 ## Reproducing results for human/mouse with single-species models
 
 **Note: Before running following codes, please make sure corresponding [processed_data](https://zenodo.org/records/10526397) has been downloaded, extracted, and placed in the 'data' folder.**
@@ -168,7 +172,7 @@ python self_supervised_leaning_MLPAE.py --org human --dataset_dir ../data/human 
 
 For newest collected data, replace 'human' with '9606' or taxonomy code for other species and modify the output directory in `--output`.
 
-## 3. Training and Prediction
+## 3. Training and prediction
 
 For training DualNetGO model:
 
@@ -190,6 +194,68 @@ The `DualNetGO_output.py` is used for generating additional AUPR values of each 
 
 For those who are interested in reproducing the best results with TransformerAE or other embedding methods, run `sh experiment_best.sh` for human and `sh experiment_best_mouse.sh` for mouse. Remember to modify the proper device id in `CUDA_VISIBLE_DEVICES=[device_id]` to specify which gpu card to be used.
 
-## 4. Other network-based models
+## 4. Other network-based single-species models
 
 As some of the famous network-based methods were derived early and not implemented by pytorch framework, we also provide modified pytorch version for these methods, which include [_deepNF_](https://github.com/VGligorijevic/deepNF) and [_Graph2GO_](https://github.com/yanzhanglab/Graph2GO). The [_Mashup_](http://mashup.csail.mit.edu) method was implmented via MATLAB, but we are not able to convert it into a pytorch version. We modify the MATLAB code of Mashup to only attain the diffusion hidden states and train it using python with SVM kernel method. Example codes for two baseline models _Naive_ and _Blast_ are also provided.
+
+
+## 5. Training DualNetGO for CAFA3 multi-species prediction
+
+Processed CAFA3 training, validation and test datasets are provided by the TEMPROT (Oliveira et. al., 2023) paper.
+
+For detailed data collection for STRING ppi files, Uniprot annotations and GO annotations, please refer to the Supplementary Materials. We assume that before training, each of the 15 species has its own TransformedAE model trained, and corresponding graph hidden states **.npy** object has been generated and stored in its own folder in `data`. If not, please refer to Section **1. Data preprocessing** and **2. Graph embedding**. To generate the `*-taxo.tsv` files used in `get_index.py`, copy the Uniprot entry in paste them in the query box on the Uniprot **ID mapping** website, choose convert from **UniProtKB_AC-ID** to **UniProtKB**. Download the results in **uncompressed** **TSV** format and select columns **Entry Name**,	**Gene Names**,	**Organism**, and	**Organism (ID)**. 
+
+For generating Esm embeddings, we utilize Esm2 pretrained checkpoint from the _huggingface_ website, and run it by tensorflow and ktrain frameworks. Create a `Model` folder, download all files from the huggingface Esm2 site and place them in it. Since ktrain does not support Esm2 for the current stage, we need to edit the source code.
+
+```
+pip install tensorflow
+pip install ktrain
+pip install transformer
+pip install npy-append-array
+# in file '.conda/envs/{env_name}/lib/python3.7/site-packages/ktrain/text/preprocessor.py'
+# the line 330 is
+# token_type_ids = token_type_ids + ([pad_token_segment_id] * padding_length)
+# add the following 2 lines from 331 above the 'assert' lines
+if len(token_type_ids) != len(attention_mask):
+    token_type_ids = attention_mask
+```
+
+Then run the `extract-embeddings.py` script for each of the 15 species using the corresponding taxonomy code in the `--org` argument.
+
+```
+python extract-embeddings.py --org 9606 --model_dir ../Model
+```
+
+Now we start to process all feature matrices:
+
+```
+cd preprocessing
+
+# id_list conversion
+python pickle2txt.py
+
+# add additional data to the CAFA3 training and validation set, only retain proteins recorded in PPI networks from all 15 species.
+python get_index.py
+
+# get all string ids and a combined fasta file from all 15 species
+pip install biopython
+python getFullFasta.py
+
+# generate big feature matrices for the filtered CAFA3 training and validation set
+python getFullSet.py bp train
+python getFullSet.py bp valid
+python getFullSet.py mf train
+python getFullSet.py mf valid
+python getFullSet.py cc train
+python getFullSet.py cc valid
+
+# generate fasta files for bp/mf/cc test set
+python genFasta.py --input ../data/cafa3/bp-test.csv --output bp-test.fasta
+python genFasta.py --input ../data/cafa3/mf-test.csv --output mf-test.fasta
+python genFasta.py --input ../data/cafa3/cc-test.csv --output cc-test.fasta
+
+# now we are ready to go
+CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode train --parallel 0 --batch 100000 --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 3 --aspect C --noeval_in_train --fasta data/cafa3/cc-test.fasta
+```
+
+
