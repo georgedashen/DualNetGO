@@ -253,8 +253,13 @@ python getFullSet.py cc valid
 python genFasta.py --input ../data/cafa3/bp-test.csv --output bp-test.fasta
 python genFasta.py --input ../data/cafa3/mf-test.csv --output mf-test.fasta
 python genFasta.py --input ../data/cafa3/cc-test.csv --output cc-test.fasta
+```
 
-# now we are ready to go
+Now we are ready to go:
+
+```
+# in the main directory
+cd ../
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode train --parallel 0 --batch 100000 --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 3 --aspect C --noeval_in_train --fasta data/cafa3/cc-test.fasta
 ```
 
