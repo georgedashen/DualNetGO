@@ -34,6 +34,8 @@ If installation failed for torch-scatter (also for torch-sparse or torch-cluster
 
 ## Quick run for CAFA3 prediction
 
+### Generating prediction scores
+
 **Note: Please make sure pretrained models and processed data are downloaded before performing prediction. They are stored in the cafa3 zip file on zenodo. Put it in the 'data' folder and extract all files.**
 
 We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. We use the **blastp** tool from NCBI to search for a most similar sequence in our dataset as a replacement for a sequence that not exists in the any PPI network. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
@@ -54,6 +56,25 @@ All feature matrices for sequences in the `--fasta` file will be gathered accord
 
 For training the DualNetGO model under the CAFA3 multi-species setting from scratch, please refer to the final section.
 
+### Evaluation
+
+Since for CAFA competition the evaluation will be automatically performed by first propagating GO terms to their parents with corresponding scores after submission, the performances from DualNetGO training and prediction are not the final results. We write a separated script for further evaluation by propagating GO terms.
+
+```
+python test.py
+```
+
+We also provide an option for user who want to perform an ensemble prediction using the blastp scores against the CAFA3 training set.
+
+```
+cd preprocessing
+python genFasta.py --input ../data/cafa3/bp-train.csv --output bp-train.fasta
+python genFasta.py --input ../data/cafa3/mf-train.csv --output mf-train.fasta
+python genFasta.py --input ../data/cafa3/cc-train.csv --output cc-train.fasta
+
+cd ../
+python BLAST.py --aspect cc --fasta data/cafa3/cc-test.fasta
+```
 
 
 ## Reproducing results for human/mouse with single-species models
@@ -266,7 +287,18 @@ Now we are ready to go:
 cd ../
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode train --parallel 0 --batch 100000 --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 2 --aspect C --noeval_in_train --fasta data/cafa3/cc-test.fasta --resultdir test
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --txt test/cc_query_results.txt --resultdir test --checkpt temp/all_iter1_100_iter2_10_feat_2_epoch1500_C_AE_seed42.pt --resultfile test/results.csv
-python test.py --aspect cc 
+python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --resultdir test
 ```
 
+For homology search using blastp and ensemble prediction:
 
+```
+cd preprocessing
+python genFasta.py --input ../data/cafa3/bp-train.csv --output bp-train.fasta
+python genFasta.py --input ../data/cafa3/mf-train.csv --output mf-train.fasta
+python genFasta.py --input ../data/cafa3/cc-train.csv --output cc-train.fasta
+
+cd ../
+python BLAST.py --aspect cc --fasta data/cafa3/cc-test.fasta --resultdir test
+python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --ensemble --blast test/cc-blast.npy --resultdir test
+```
