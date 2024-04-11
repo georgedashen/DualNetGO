@@ -641,7 +641,7 @@ for e in ['neighborhood', 'fusion', 'cooccurence', 'coexpression', 'experimental
         for i in range(len(test_idx)):
             taxo = test_taxo[i]
             idx = test_idx[i]
-            fn = f'/home/zhuoyang/data/DualNetGO/cafa3/{taxo}/{taxo}_net_{e}_AE.npy'
+            fn = f'data/cafa3/{taxo}/{taxo}_net_{e}_AE.npy'
             y = np.load(fn)
             net = np.vstack((net,y[idx,:]))
         np.save(fo,net)
@@ -655,7 +655,7 @@ else:
     for i in range(len(test_idx)):
         taxo = test_taxo[i]
         idx = test_idx[i]
-        fn = f'/home/zhuoyang/data/DualNetGO/cafa3/{taxo}/{taxo}_Esm2.npy'
+        fn = f'data/cafa3/{taxo}/{taxo}_Esm2.npy'
         Z = np.load(fn)
         esm = np.vstack((esm,Z[idx,:]))
     np.save(fo, esm)
