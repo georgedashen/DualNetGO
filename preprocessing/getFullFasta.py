@@ -21,5 +21,5 @@ for s in species_list:
                 SeqIO.write(record, fout, 'fasta')
 
 df = pd.DataFrame({'string':string_ids,'taxo':taxo})
-df.to_csv('../dataset/cafa3/all_proteins_id.csv',index=False)
+df.to_csv('../data/cafa3/all_proteins_id.csv',index=False)
 
