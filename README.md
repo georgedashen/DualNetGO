@@ -210,10 +210,12 @@ To generate the `*-taxo.tsv` files used in `get_index.py`, copy the Uniprot entr
 For generating Esm embeddings, we utilize Esm2 pretrained checkpoint from the _huggingface_ website, and run it by tensorflow and ktrain frameworks. Create a `Model` folder, download all files from the huggingface Esm2 site and place them in it. Since ktrain does not support Esm2 for the current stage, we need to edit the source code.
 
 ```
+#tensorflow==2.11.0
 pip install tensorflow
-pip install ktrain
-pip install transformer
-pip install npy-append-array
+pip install ktrain==0.38.0
+pip install pytest==7.4.3
+pip install npy-append-array==0.9.13
+pip install biopython==1.81
 # in file '.conda/envs/{env_name}/lib/python3.7/site-packages/ktrain/text/preprocessor.py'
 # the line 330 is
 # token_type_ids = token_type_ids + ([pad_token_segment_id] * padding_length)
@@ -225,6 +227,7 @@ if len(token_type_ids) != len(attention_mask):
 Then run the `extract-embeddings.py` script for each of the 15 species using the corresponding taxonomy code in the `--org` argument.
 
 ```
+cd preprocessing
 python extract-embeddings.py --org 9606 --model_dir ../Model
 ```
 
@@ -240,7 +243,6 @@ python pickle2txt.py
 python get_index.py
 
 # get all string ids and a combined fasta file from all 15 species
-pip install biopython
 python getFullFasta.py
 
 # generate big feature matrices for the filtered CAFA3 training and validation set
