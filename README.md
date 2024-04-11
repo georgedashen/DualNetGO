@@ -264,7 +264,9 @@ Now we are ready to go:
 ```
 # in the main directory
 cd ../
-CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode train --parallel 0 --batch 100000 --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 3 --aspect C --noeval_in_train --fasta data/cafa3/cc-test.fasta
+CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode train --parallel 0 --batch 100000 --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 2 --aspect C --noeval_in_train --fasta data/cafa3/cc-test.fasta --resultdir test
+CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --txt test/cc_query_results.txt --resultdir test --checkpt temp/all_iter1_100_iter2_10_feat_2_epoch1500_C_AE_seed42.pt --resultfile test/results.csv
+python test.py --aspect cc 
 ```
 
 
