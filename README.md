@@ -30,7 +30,7 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 
 For installing torch-1.10.1+cu111, please go to the pytorch official website and find the corresponding version in the **previous-versions** site. Or you can use the command `pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html` provided by the website.
 
-If installation failed for torch-scatter (also for torch-sparse or torch-cluster), you can try to install with `pip install torch-scatter==2.1.1 -f https://pytorch-geometric.com/whl/torch-1.10.1+cu111.html` and replace the torch and cuda version with your own one.
+If installation fails for torch-scatter (also for torch-sparse or torch-cluster), you can try to install with `pip install torch-scatter==2.1.1 -f https://pytorch-geometric.com/whl/torch-1.10.1+cu111.html` and replace the torch and cuda version with your own one.
 
 ## Quick run for CAFA3 prediction
 
@@ -61,19 +61,15 @@ For training the DualNetGO model under the CAFA3 multi-species setting from scra
 Since for CAFA competition the evaluation will be automatically performed by first propagating GO terms to their parents with corresponding scores after submission, the performances from DualNetGO training and prediction are not the final results. We write a separated script for further evaluation by propagating GO terms.
 
 ```
-python test.py
+python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --resultdir test
 ```
 
-We also provide an option for user who want to perform an ensemble prediction using the blastp scores against the CAFA3 training set.
+We also provide an option for users who want to perform an ensemble prediction using the blastp scores against the CAFA3 training set.
 
 ```
-cd preprocessing
-python genFasta.py --input ../data/cafa3/bp-train.csv --output bp-train.fasta
-python genFasta.py --input ../data/cafa3/mf-train.csv --output mf-train.fasta
-python genFasta.py --input ../data/cafa3/cc-train.csv --output cc-train.fasta
-
-cd ../
-python BLAST.py --aspect cc --fasta data/cafa3/cc-test.fasta
+python BLAST.py --aspect cc --txt data/cafa3/cc_homo_query_results.txt --resultdir test
+#python BLAST.py --aspect cc --fasta data/cafa3/cc-test.fasta --resultdir test
+python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --ensemble --blast test/cc-blast.npy --resultdir test
 ```
 
 
@@ -280,7 +276,7 @@ python genFasta.py --input ../data/cafa3/mf-test.csv --output mf-test.fasta
 python genFasta.py --input ../data/cafa3/cc-test.csv --output cc-test.fasta
 ```
 
-Now we are ready to go:
+Now we are ready to train, predict and evaluate:
 
 ```
 # in the main directory
@@ -300,5 +296,5 @@ python genFasta.py --input ../data/cafa3/cc-train.csv --output cc-train.fasta
 
 cd ../
 python BLAST.py --aspect cc --fasta data/cafa3/cc-test.fasta --resultdir test
-python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --ensemble --blast test/cc-blast.npy --resultdir test
+python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --ensemble --alpha 0.5 --blast test/cc-blast.npy --resultdir test
 ```
