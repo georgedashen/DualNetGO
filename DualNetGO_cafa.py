@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 from scipy import sparse
 import scipy.io as sio
-import pickle
+import ast
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
@@ -22,8 +22,6 @@ import torch.optim as optim
 import torch.distributed as dist
 from model import *
 from get_dataset import multimodesDataset
-import uuid
-import copy
 import itertools
 from collections import defaultdict
 import torch_sparse
@@ -37,10 +35,12 @@ from validation import evaluate_performance
 
 warnings.filterwarnings("ignore") #temporary ignoring warning from torch_sparse
 
-example_usage = 'CUDA_VISIBLE_DEVICES=6,7 torchrun --nproc_per_node=2 --master_port=6005 DualNetGO_cafa.py --mode train --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 3 --aspect F --noeval_in_train --txt mf_query_results.txt'
-noparallel_usage = 'CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode train --parallel 0 --batch 100000 --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 3 --aspect F --noeval_in_train --txt mf_query_results.txt'
-predict_usage_fasta = 'CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect P --fasta bp-test.fasta --resultdir data/cafa3'
-predict_usage_txt = 'CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect P --txt bp_query_results.txt --resultdir data/cafa3'
+example_usage = 'CUDA_VISIBLE_DEVICES=6,7 torchrun --nproc_per_node=2 --master_port=6005 DualNetGO_cafa.py --mode train --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 3 --aspect C --noeval_in_train --txt cc_query_results.txt'
+noparallel_usage = 'CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode train --parallel 0 --batch 100000 --lr_fc1 0.01 --lr_fc2 0.01 --step1_iter 100 --step2_iter 10 --max_feat_select 3 --aspect C --noeval_in_train --txt cc_query_results.txt'
+predict_usage_fasta = 'CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --fasta cc-test.fasta --resultdir data/cafa3'
+predict_usage_txt = 'CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --txt cc_query_results.txt --resultdir data/cafa3'
+predict_usage_custom = 'CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --txt cc_query_results.txt --resultdir data/cafa3 --checkpt {your_model} --resultfile {your_file}'
+
 
 parser = argparse.ArgumentParser(description='DualNetGO_CAFA main function with mini-batch DDP', epilog=example_usage)
 
@@ -88,6 +88,11 @@ parser.add_argument('--comet', action='store_true', default=False, help='use com
 parser.add_argument('--noeval_in_train', action='store_true', default=False)
 parser.add_argument('--test', action='store_true', default=False)
 
+# custom prediction using other checkpoints
+parser.add_argument('--checkpt', type=str, default='', help='only loaded in predict mode')
+parser.add_argument('--mask',default=None,help='Provide feature mask as list, eg.[0,1]')
+parser.add_argument('--resultfile', type=str, default='', help='a csv file that contains training results')
+
 args = parser.parse_args()
 
 
@@ -125,6 +130,7 @@ else:
     else:
         local_rank = torch.device('cpu')
     dist_rank = 0
+device = torch.device('cuda', local_rank)
 
 
 # set comet_ml, default turn off, make sure to use your own API_token in comet_ml
@@ -150,10 +156,10 @@ criterion = aslloss.AsymmetricLossOptimized(
 
 
 # avoid duplicated training
-device = torch.device('cuda', local_rank)
-checkpt_file = f'{args.modeldir}/{args.org}_iter1_{args.step1_iter}_iter2_{args.step2_iter}_feat_{args.max_feat_select}_epoch{args.epochs}_{args.aspect}_{args.embedding}_seed{args.seed}.pt'
-if not args.overwrite and os.path.exists(checkpt_file):
-    sys.exit(0)
+if args.mode == 'train':
+    checkpt_file = f'{args.modeldir}/{args.org}_iter1_{args.step1_iter}_iter2_{args.step2_iter}_feat_{args.max_feat_select}_epoch{args.epochs}_{args.aspect}_{args.embedding}_seed{args.seed}.pt'
+    if not args.overwrite and os.path.exists(checkpt_file):
+        sys.exit(0)
 
 
 # currently no use
@@ -524,6 +530,32 @@ best_mask_dict = {'P':[6,7], 'F':[5,7], 'C':[2,6]}
 model_dict = {'P':'data/cafa3/all_iter1_500_iter2_10_feat_2_epoch1500_P_AE_seed42.pt',
               'F':'data/cafa3/all_iter1_300_iter2_70_feat_2_epoch1500_F_AE_seed42.pt',
               'C':'data/cafa3/all_iter1_400_iter2_10_feat_2_epoch1500_C_AE_seed42.pt'}
+
+
+if args.mode == 'predict' and args.checkpt:
+    if not os.path.isfile(args.checkpt):
+        raise ValueError("Model not found!")
+    else:
+        temp_args = os.path.split(args.checkpt)[-1].split('_')
+        args.step1_iter = int(temp_args[2])
+        args.step2_iter = int(temp_args[4])
+        args.max_feat_select = int(temp_args[6])
+        assert args.aspect == temp_args[8], "Incosistent aspect argument with provided model!"
+        args.embedding = temp_args[9]
+        model_dict[args.aspect] = args.checkpt
+        if args.mask:
+            best_mask_dict[args.aspect] = ast.literal_eval(str(args.mask))
+        elif args.resultfile:
+            res = pd.read_csv(args.resultfile, header=None)
+            df = res[(res[12]==args.step1_iter) & (res[13]==args.step2_iter) & (res[15]==args.max_feat_select) & (res[18]==args.aspect) & ((res[19]==args.embedding))]
+            if len(df) == 0:
+                raise ValueError('Model result not found!')
+            else:
+                best_mask_dict[args.aspect] = ast.literal_eval(df[26].values[0])
+        else:
+            raise ValueError("Please provide --mask or --resultfile")
+
+
 num_labels = n_class_dict[args.aspect]
 best_mask = best_mask_dict[args.aspect]
 checkpt_model = model_dict[args.aspect]
