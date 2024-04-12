@@ -75,7 +75,7 @@ python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --ensemble --blast
 
 ## Reproducing results for human/mouse with single-species models
 
-**Note: Before running following codes, please make sure corresponding [processed data]([https://zenodo.org/records/10526397](https://zenodo.org/records/10963818)) ('human' or 'mouse') has been downloaded, extracted, and placed in the 'data' folder.**
+**Note: Before running following codes, please make sure corresponding [preprocessed_data]([https://zenodo.org/records/10526397](https://zenodo.org/records/10963818)) ('human' or 'mouse') has been downloaded, extracted, and placed in the 'data' folder.**
 
 For reproducing the results of human reported in the paper using graph embeddings from TransformerAE:
 
