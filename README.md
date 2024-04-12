@@ -36,7 +36,7 @@ If installation fails for torch-scatter (also for torch-sparse or torch-cluster)
 
 ### Generating prediction scores
 
-**Note: Please make sure pretrained models and processed data are downloaded before performing prediction. They are stored in the cafa3 zip file on zenodo. Put it in the 'data' folder and extract all files.**
+**Note: Please make sure pretrained models and processed data are downloaded before performing prediction. They are stored in the 'cafa3' zip file on [zenodo](https://zenodo.org/records/10963818). Put it under the 'data' folder and extract all files.**
 
 We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. We use the **blastp** tool from NCBI to search for a most similar sequence in our dataset as a replacement for a sequence that not exists in the any PPI network. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
 
@@ -75,7 +75,7 @@ python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --ensemble --blast
 
 ## Reproducing results for human/mouse with single-species models
 
-**Note: Before running following codes, please make sure corresponding [processed_data](https://zenodo.org/records/10526397) has been downloaded, extracted, and placed in the 'data' folder.**
+**Note: Before running following codes, please make sure corresponding [processed data]([https://zenodo.org/records/10526397](https://zenodo.org/records/10963818)) ('human' or 'mouse') has been downloaded, extracted, and placed in the 'data' folder.**
 
 For reproducing the results of human reported in the paper using graph embeddings from TransformerAE:
 
