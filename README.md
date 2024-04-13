@@ -91,6 +91,8 @@ CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --step1_iter 500 --step2_iter 80 --ma
 # Best masks: BP [3,5,6], MF [3,4,6], CC [0,2]
 ```
 
+If different results are produced, try to use the annotation file `human_annot.mat` in the `data` folder to replace that downloaded from zenodo, as the two files contain same sets of proteins but in different orders. Different results can still be produced due to a different environment.
+
 For reproducing the results of mouse reported in the paper:
 
 ```
