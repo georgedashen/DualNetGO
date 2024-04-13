@@ -61,6 +61,7 @@ parser.add_argument('--modeldir',type=str, default='human_trained', help='folder
 parser.add_argument('--resultdir',type=str, default='.', help='folder to save the csv result')
 parser.add_argument('--out',type=str, default='results.csv', help='csv result')
 parser.add_argument('--comet', action='store_true', default=False, help='use comet_ml to log results')
+parser.add_argument('--noeval_in_train', action='store_true', default=False)
 
 
 args = parser.parse_args()
@@ -121,8 +122,11 @@ def train_step(model,optimizer,labels,list_mat,list_ind):
     optimizer.zero_grad()
     output = model(list_mat, layer_norm,list_ind)
     outs = nn.functional.sigmoid(output.detach()).cpu().numpy()
-    perf_train = evaluate_performance(labels, outs, (outs > 0.5).astype(int))
     loss_train = criterion(torch.zeros(2,2,2), output, torch.tensor(labels).to(device))
+    if args.noeval_in_train:
+        perf_train = {'Fmax':0}
+    else:
+        perf_train = evaluate_performance(labels, outs, (outs > 0.5).astype(int))
     loss_train.backward()
     optimizer.step()
     return loss_train.item(),perf_train['Fmax']
@@ -134,7 +138,10 @@ def validate_step(model,labels,list_mat,list_ind):
         output = model(list_mat, layer_norm,list_ind)
         outs = nn.functional.sigmoid(output.detach()).cpu().numpy()
         loss_val = criterion(torch.zeros(2,2,2), output, torch.tensor(labels).to(device))
-        perf_val = evaluate_performance(labels, outs, (outs > 0.5).astype(int))
+        if args.noeval_in_train:
+            perf_val = {'Fmax':0, 'tmax':0}
+        else:
+            perf_val = evaluate_performance(labels, outs, (outs > 0.5).astype(int))
         return loss_val.item(),perf_val['Fmax'],perf_val['tmax']
 
 
