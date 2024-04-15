@@ -24,7 +24,6 @@ from model import *
 from get_dataset import multimodesDataset
 import itertools
 from collections import defaultdict
-import torch_sparse
 import warnings
 from tqdm import tqdm
 import csv
@@ -160,17 +159,6 @@ if args.mode == 'train':
     checkpt_file = f'{args.modeldir}/{args.org}_iter1_{args.step1_iter}_iter2_{args.step2_iter}_feat_{args.max_feat_select}_epoch{args.epochs}_{args.aspect}_{args.embedding}_seed{args.seed}.pt'
     if not args.overwrite and os.path.exists(checkpt_file):
         sys.exit(0)
-
-
-# currently no use
-def scipy_to_tensor(mat):
-    mat = mat.tocoo()
-    values = torch.FloatTensor(mat.data)
-    indices = np.vstack((mat.row, mat.col))
-    indices = torch.LongTensor(indices)
-    shape = mat.shape
-
-    return torch.sparse.FloatTensor(indices, values, torch.Size(shape))
 
 
 def train_step(model,optimizer,labels,list_mat,list_ind):
