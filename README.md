@@ -12,7 +12,7 @@ Most of the codes in this study are bollowed from [CFAGO](http://bliulab.net/CFA
 ## Requirements
 All experiments are conducted on one 3090 GPU with 24G memory.
 ```
-* python==3.7
+* python==3.7.16
 * networkx==2.6.3
 * numpy==1.21.6
 * pandas==1.3.5
