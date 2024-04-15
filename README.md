@@ -19,18 +19,13 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 * scikit-learn==1.0.2
 * scipy==1.7.3
 * torch==1.10.1+cu111
-* torch-geometric==2.0.0
-* torch-sparse==0.6.13
-* torch-scatter==2.1.1
-* torch-cluster==1.6.1
 * torchaudio==0.10.1+cu111
 * torchvision==0.11.2+cu111
+* tqdm==4.66.2
 * termcolor==2.3.0
 ```
 
 For installing torch-1.10.1+cu111, please go to the pytorch official website and find the corresponding version in the **previous-versions** site. Or you can use the command `pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html` provided by the website.
-
-If installation fails for torch-scatter (also for torch-sparse or torch-cluster), you can try to install with `pip install torch-scatter==2.1.1 -f https://pytorch-geometric.com/whl/torch-1.10.1+cu111.html` and replace the torch and cuda version with your own one.
 
 ## Quick run for CAFA3 prediction
 
@@ -170,7 +165,17 @@ python self_supervised_leaning.py --org human --dataset_dir ../data/human --outp
 
 There is a design in the original code for parallelly training across GPUs and machines but we doesn't use it in the traninig. When running multiple processes, please make sure using different `--dist-url` such as _tcp://127.0.0.1:3724_. The `--evidence` argument correspond to the type of PPI network to encode, and can be chosen from `neighborhood`, `fusion`, `cooccurence`, `coexpression`, `experimental`, `database`, `textmining` and `combined`.
 
-Those who are interested in classic graph embedding methods can see below:
+Those who are interested in classical graph embedding methods can see below:
+
+```
+# required for node2vec and GAE
+pip install torch-sparse==0.6.13
+pip install torch-scatter==2.1.1
+pip install torch-cluster==1.6.1
+pip install torch-geometric==2.0.0
+```
+
+If installation fails for torch-scatter (also for torch-sparse or torch-cluster), you can try to install with `pip install torch-scatter==2.1.1 -f https://pytorch-geometric.com/whl/torch-1.10.1+cu111.html` and replace the torch and cuda version with your own one.
 
 ```
 #for node2vec and graph variational autoencoder
