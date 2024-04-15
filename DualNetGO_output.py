@@ -23,7 +23,6 @@ import pickle
 import copy
 import itertools
 from collections import defaultdict
-import torch_sparse
 import warnings
 from tqdm import tqdm
 import pandas as pd
@@ -110,17 +109,6 @@ elif os.path.isfile(args.checkpoint):
 
 #set number of adjacency matrices in the input data
 num_adj = int(args.num_adj)
-
-def scipy_to_tensor(mat):
-    mat = mat.tocoo()
-    values = torch.FloatTensor(mat.data)
-    indices = np.vstack((mat.row, mat.col))
-    indices = torch.LongTensor(indices)
-    shape = mat.shape
-
-    return torch.sparse.FloatTensor(indices, values, torch.Size(shape))
-
-
 
 
 def validate_step(model,labels,list_mat,list_ind):
