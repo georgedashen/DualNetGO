@@ -20,7 +20,6 @@ import torch.optim as optim
 from model import *
 import pickle
 import itertools
-import torch_sparse
 import warnings
 from tqdm import tqdm
 import csv
@@ -110,17 +109,6 @@ if os.path.exists(checkpt_file):
 
 #set number of adjacency matrices in the input data
 num_adj = int(args.num_adj)
-
-def scipy_to_tensor(mat):
-    mat = mat.tocoo()
-    values = torch.FloatTensor(mat.data)
-    #row = torch.LongTensor(mat.row)
-    #col = torch.LongTensor(mat.col)
-    indices = np.vstack((mat.row, mat.col))
-    indices = torch.LongTensor(indices)
-    shape = mat.shape
-
-    return torch.sparse.FloatTensor(indices, values, torch.Size(shape))
 
 
 def train_step(model,optimizer,labels,list_mat,list_ind):
