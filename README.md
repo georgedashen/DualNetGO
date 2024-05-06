@@ -26,8 +26,7 @@ All experiments are conducted on one 3090 GPU with 24G memory.
 
 For installing torch-1.10.1+cu111, please go to the pytorch official website and find the corresponding version in the **previous-versions** site. Or you can use the command `pip install torch==1.10.1+cu111 torchvision==0.11.2+cu111 torchaudio==0.10.1 -f https://download.pytorch.org/whl/cu111/torch_stable.html` provided by the website.
 
-**Note: previous dependences on torch_sparse and torch_geometric have been moved to the 2.graph Embedding section as these libraries are only required for Node2Vec and GAE algorithms.
-**
+**Note: previous dependences on torch_sparse and torch_geometric have been moved to the 2.graph Embedding section as these libraries are only required for Node2Vec and GAE algorithms.**
 
 A docker image is also provided on [zenodo](https://zenodo.org/records/10973798). To use it please make sure that your machine is compatible with CUDA 11.1 and with CUDA 11.1 installed.
 
