@@ -483,7 +483,7 @@ def predict(list_test_mat,num_nodes,num_feat,num_labels):
     num_feat_mat = len(list_test_mat) - num_adj
 
     num_layer = len(list_test_mat)
-    model = Classifier(nfeat=num_feat,
+    model = Classifier_cafa(nfeat=num_feat,
                 num_adj_mat=num_adj_mat,
                 num_feat_mat=num_feat_mat,
                 nhidden=args.hidden,
@@ -491,7 +491,7 @@ def predict(list_test_mat,num_nodes,num_feat,num_labels):
                 dropout1=args.dropout1,
                 dropout2=args.dropout2,
                 dropout3=args.dropout3,
-                num_nodes=num_nodes, device=int(args.dev)).to(device)
+                num_nodes=num_nodes, device=local_rank).to(local_rank)
 
 
     print('Predicting: =======================')
