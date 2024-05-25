@@ -1,7 +1,7 @@
 # DualNetGO
 DualNetGO: A Dual Network Model for Protein Function Prediction via Effective Feature Selection
 
-Here we provide the codes, some of the processed data and important results of the DualNetGO paper. DualNetGO is comprised of two components: a **graph encoder** for extracting graph information or generating graph embeddings and a **predictor** for predicting protein functions.
+Here we provide the codes, some of the processed data, and important results of the DualNetGO paper. DualNetGO is comprised of two components: a **graph encoder** for extracting graph information or generating graph embeddings, and a **predictor** for predicting protein functions.
 
 Most of the codes in this study are obtained from [CFAGO](http://bliulab.net/CFAGO) and [DualNetGNN](https://github.com/sunilkmaurya/DualNetGNN_large). For more details one can check the original papers at:
 
