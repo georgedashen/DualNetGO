@@ -166,9 +166,9 @@ python self_supervised_leaning.py --org human --dataset_dir ../data/human --outp
 python self_supervised_leaning.py --org human --dataset_dir ../data/human --output human_result --dist-url tcp://127.0.0.1:3730 --seed 1329765522 --dim_feedforward 512 --nheads 8 --dropout 0.1 --attention_layers 6 --batch-size 32 --activation gelu --epochs 5000 --lr 1e-5 --evidence textmining
 ```
 
-There is a design in the original code for parallelly training across GPUs and machines but we doesn't use it in the traninig. When running multiple processes, please make sure using different `--dist-url` such as _tcp://127.0.0.1:3724_. The `--evidence` argument correspond to the type of PPI network to encode, and can be chosen from `neighborhood`, `fusion`, `cooccurence`, `coexpression`, `experimental`, `database`, `textmining` and `combined`.
+There is a design in the original code for parallel training across GPUs and machines, but we don't use the parallel setting but instead only using a single GPU for traninig. When running multiple processes, please make sure to use different `--dist-url` such as _tcp://127.0.0.1:3724_. The `--evidence` argument corresponds to the type of PPI network to encode, and can be chosen from `neighborhood`, `fusion`, `cooccurence`, `coexpression`, `experimental`, `database`, `textmining` and `combined`.
 
-Those who are interested in classical graph embedding methods can see below:
+Those who are interested in classical graph embedding methods can install the following packages and run the scipts in the next code block to get the corresponding embeddings:
 
 ```
 # required for node2vec and GAE
