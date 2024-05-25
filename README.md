@@ -56,7 +56,7 @@ For training the DualNetGO model under the CAFA3 multi-species setting from scra
 
 ### Evaluation
 
-Since for CAFA competition the evaluation will be automatically performed by first propagating GO terms to their parents with corresponding scores after submission, the performances from DualNetGO training and prediction are not the final results. We write a separated script for further evaluation by propagating GO terms.
+Since for CAFA competition the evaluation will be automatically performed by first propagating GO terms to their parents with corresponding scores after submission, the performance results from DualNetGO training and prediction are not the final results. We write a separate script for further evaluation by propagating GO terms.
 
 ```
 python test.py --aspect cc --npy test/cc_DualNetGO_scores.npy --resultdir test
@@ -89,7 +89,7 @@ CUDA_VISIBLE_DEVICES=0 python DualNetGO.py --step1_iter 500 --step2_iter 80 --ma
 # Best masks: BP [3,5,6], MF [3,4,6], CC [0,2]
 ```
 
-If different results are produced, try to use the annotation file `human_annot.mat` in the `data` folder to replace that downloaded from zenodo, as the two files contain same sets of proteins but in different orders. Different results can be produced on a different environment, for example results from RTX 4090 and A100 can be differents from those from RTX 3090 in this study. In this case, one can try different combinations of hyperparameters (`step1_iter`, `step2_iter`, `max_feat_select`) to get close results.
+If different results are produced, please use the annotation file `human_annot.mat` in the `data` folder to replace that downloaded from zenodo, as the two files contain the same sets of proteins but in different orders. Different results can be produced on a different environment, for example results from RTX 4090 and A100 can be different from those from RTX 3090 in this study. In this case, one can try different combinations of hyperparameters (`step1_iter`, `step2_iter`, `max_feat_select`) to get results closer to the reported ones.
 
 For reproducing the results of mouse reported in the paper:
 
@@ -104,13 +104,13 @@ CUDA_VISIBLE_DEVICES=0 python DualNetGO_mouse.py --step1_iter 400 --step2_iter 1
 # Best masks: BP [0,3,6], MF [0,4], CC [1,2,6]
 ```
 
-After running the above, three models for BP, MF and CC, respectively, are trained, and their weights and the corresponding results containing the best masks are saved. 
+At this point, three models for BP, MF, and CC, respectively, are trained, and their weights and the corresponding results containing the best masks are saved. 
 
 
 ## 1. Data preprocessing
-Raw PPI network data can be downloaded from the STRING database and protein attribute information can be retrieved from the Swiss-Prot database. If one has already downloaded the processed data (with raw data included) from above, then may skip this step.
+Raw PPI network data can be downloaded from the STRING database and protein attribute information can be retrieved from the Swiss-Prot database. If one has already downloaded the processed data (with raw data included) from the provided link, they may skip this step.
 
-One can also get the files used in the paper from the [_CFAGO_](http://bliulab.net/CFAGO/static/dataset/Dataset.rar) website and save them in the `data` folder, but please notice that they are not the latest version now. 
+One can also get the files used in the paper from the [_CFAGO_](http://bliulab.net/CFAGO/static/dataset/Dataset.rar) website and save them in the `data` folder, but note that the original data that used to train and evaluate the CFAGO model are not the latest version now, compared to the UniProt2023 and STRINGv12.0 database. 
 
 **Important note**: 
 
