@@ -44,7 +44,7 @@ If you have already performed the blastp search against the provided dataset and
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --txt data/cafa3/cc_query_results.txt --resultdir test
 ```
 
-Or use the following script if you want to use a custom `--fasta` file as input, with an example we provided:
+Or use the following script if you want to predict functions for sequences from your custom *fasta file as input. Provide the *fasta file following `--fasta` and set your custom output directory after `--resultdir`. Here is an example we provide:
 
 ```
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --fasta data/cafa3/cc-test.fasta --resultdir test
