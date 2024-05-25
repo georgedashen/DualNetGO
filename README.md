@@ -3,7 +3,7 @@ DualNetGO: A Dual Network Model for Protein Function Prediction via Effective Fe
 
 Here we provide the codes, some of the processed data and important results of the DualNetGO paper. DualNetGO is comprised of two components: a **graph encoder** for extracting graph information or generating graph embeddings and a **predictor** for predicting protein functions.
 
-Most of the codes in this study are bollowed from [CFAGO](http://bliulab.net/CFAGO) and [DualNetGNN](https://github.com/sunilkmaurya/DualNetGNN_large). For more details one can check the original papers at:
+Most of the codes in this study are obtained from [CFAGO](http://bliulab.net/CFAGO) and [DualNetGNN](https://github.com/sunilkmaurya/DualNetGNN_large). For more details one can check the original papers at:
 
 [Wu, Z.; Guo, M.; Jin, X.; Chen, J.; Liu, B. CFAGO: Cross-fusion of network and attributes based on attention mechanism for protein function prediction. Bioinformatics 2023, 39, btad123.](https://academic.oup.com/bioinformatics/article/39/3/btad123/7072461)
 
@@ -36,7 +36,7 @@ A docker image is also provided on [zenodo](https://zenodo.org/records/10973798)
 
 **Note: Please make sure pretrained models and processed data are downloaded before performing prediction. They are stored in the 'cafa3' zip file on [zenodo](https://zenodo.org/records/10963818). Put it under the 'data' folder and extract all files.**
 
-We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. We use the **blastp** tool from NCBI to search for a most similar sequence in our dataset as a replacement for a sequence that not exists in the any PPI network. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
+We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. We use the **blastp** tool from NCBI to search for a most similar sequence in our dataset as a replacement for a sequence that does not exist in the any PPI network. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
 
 If you have already performed blastp research against the provided dataset and had the `*query_results.txt` file in `--resultdir`, which we have provided, run the following script. You can also run it without the `--txt` argument, then the `--txt` file will be detected automatically in the `--resultdir` folder.
 
