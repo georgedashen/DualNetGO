@@ -223,18 +223,18 @@ For those who are interested in reproducing the best results with TransformerAE 
 
 ## 4. Other network-based single-species models
 
-As some of the famous network-based methods were derived early and not implemented by pytorch framework, we also provide modified pytorch version for these methods, which include [_deepNF_](https://github.com/VGligorijevic/deepNF) and [_Graph2GO_](https://github.com/yanzhanglab/Graph2GO). The [_Mashup_](http://mashup.csail.mit.edu) method was implmented via MATLAB, but we are not able to convert it into a pytorch version. We modify the MATLAB code of Mashup to only attain the diffusion hidden states and train it using python with SVM kernel method. Example codes for two baseline models _Naive_ and _Blast_ are also provided.
+As some of the famous network-based methods were derived early and not implemented by pytorch, we also provide a modified pytorch version for these methods, which include [_deepNF_](https://github.com/VGligorijevic/deepNF) and [_Graph2GO_](https://github.com/yanzhanglab/Graph2GO). The [_Mashup_](http://mashup.csail.mit.edu) method was implmented via MATLAB, but we are not able to convert it into a pytorch version. We modify the MATLAB code of Mashup to only attain the diffusion hidden states and train it using python with the SVM kernel method. Example codes for two baseline models _Naive_ and _Blast_ are also provided.
 
 
 ## 5. Training DualNetGO for CAFA3 multi-species prediction
 
 Processed CAFA3 training, validation and test datasets are provided by the TEMPROT (Oliveira et. al., 2023) paper. We have included them in our data, and you can find them [here](https://zenodo.org/records/7409660).
 
-For detailed data collection for STRING ppi files, Uniprot annotations and GO annotations, please refer to the Supplementary Materials. We assume that before training, each of the 15 species has its own TransformedAE model trained, and corresponding graph hidden states **.npy** object has been generated and stored in its own folder in `data`. If not, please refer to Section **1. Data preprocessing** and **2. Graph embedding**. Note: To reduce the TransformerAE training time, we use the epoch **500** instead of 5000 in the original setting.
+For detailed data collection for STRING ppi files, Uniprot annotations and GO annotations, please refer to the Supplementary Materials. We assume that before training, each of the 15 species has its own TransformedAE model trained, and the corresponding graph hidden states **.npy** object has been generated and stored in its own folder in `data`. If not, please refer to Section **1. Data preprocessing** and **2. Graph embedding**. Note: To reduce the TransformerAE training time, we use the epoch **500** instead of 5000 in the original setting.
 
-To generate the `*-taxo.tsv` files used in `get_index.py`, copy the Uniprot entry in paste them in the query box on the Uniprot **ID mapping** website, choose convert from **UniProtKB_AC-ID** to **UniProtKB**. Download the results in **uncompressed** **TSV** format and select columns **Entry Name**,	**Gene Names**,	**Organism**, and	**Organism (ID)**. 
+To generate the `*-taxo.tsv` files used in `get_index.py`, copy the Uniprot entry and paste them in the query box on the Uniprot **ID mapping** website, choose "convert from **UniProtKB_AC-ID** to **UniProtKB**". Download the results in the **uncompressed** **TSV** format and select columns **Entry Name**,	**Gene Names**,	**Organism**, and	**Organism (ID)**. 
 
-For generating Esm embeddings, we utilize Esm2 pretrained checkpoint from the _huggingface_ website, and run it by tensorflow and ktrain frameworks. Create a `Model` folder, download all files from the huggingface Esm2 site and place them in it. Since ktrain does not support Esm2 for the current stage, we need to edit the source code.
+For generating Esm embeddings, we utilize the Esm2 pretrained checkpoint from the _huggingface_ website, and run it by tensorflow and ktrain frameworks. Create a `Model` folder, download all files from the huggingface Esm2 site and place them in the folder. Since ktrain does not support Esm2 for the current stage, we need to edit the source code.
 
 ```
 #tensorflow==2.11.0
