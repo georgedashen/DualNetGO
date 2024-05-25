@@ -122,6 +122,6 @@ def evaluate(predictions, ground_truth):
       new_p.append(max(precisions[idx:]))
 
   iaupr = np.trapz(new_p, new_r)
-  print('IAuPRC:', aupr)
+  print('IAuPRC:', iaupr)
 
   return {'Fmax':f1_max_value, 'AuPRC':aupr, 'IAuPRC':iaupr, 'Smin':smin, 'threshold':f1_max_threshold}
