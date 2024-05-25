@@ -114,9 +114,9 @@ One can also get the files used in the paper from the [_CFAGO_](http://bliulab.n
 
 **Important note**: 
 
-**There are substantial updates of STRING v12.0 from v11.5, including how STRING ID is named. Latest files downloaded for Pfam and subcellular location annotation from Uniprot have been using the STRING ID from STRING v12.0, and column names are slightly different from those used in this paper, which are original provided by the CFAGO paper.**
+**There are substantial updates of STRING v12.0 from v11.5, including how STRING ID is named. Latest files downloaded for Pfam and subcellular location annotation from Uniprot have been using the STRING ID from STRING v12.0, and column names are slightly different from those used in this paper, which are originally provided by the CFAGO paper.**
 
-For generating adjacency matrices from PPI networks, retrieving protein Pfam domain and subcellular location and filtering GO terms and proteins. Take human data as the example:
+For generating adjacency matrices from PPI networks, retrieving protein Pfam domain and subcellular location, and filtering GO terms and proteins, please run the following codes. Take human data as the example:
 
 ```
 cd prepocessing
