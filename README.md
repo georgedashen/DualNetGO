@@ -38,7 +38,7 @@ A docker image is also provided on [zenodo](https://zenodo.org/records/10973798)
 
 We provide the DualNetGO model checkpoint and also the corresponding TransformerAE graph embeddings and Esm sequence embeddings for directly prediction on protein sequences with FASTA file. We use the **blastp** tool from NCBI to search for a most similar sequence in our dataset as a replacement for a sequence that does not exist in any PPI networks in our 15-species dataset. So make sure that **blastp** is installed in the environment, or use `sudo apt install ncbi-blast+` to install.
 
-If you have already performed the blastp search against the provided dataset and got the tabular result file, you can use it as the input file following `--resultdir` to skip the blast searching procedure by running the following script. We also provide the `*query_results.txt` files in `cafa3` folder which can be downloaded using the above provided link. You can also run it without the `--txt` argument, then the `--txt` file will be detected automatically in the folder following `--resultdir`.
+If you have already performed the blastp search against the provided dataset and got the tabular result file, you can use it as the input file following `--txt` to skip the blast searching procedure by running the following script. We also provide the `*query_results.txt` files in `cafa3` folder which can be downloaded using the above provided link. You can also run it without the `--txt` argument, then the `--txt` file will be detected automatically in the folder following `--resultdir`.
 
 ```
 CUDA_VISIBLE_DEVICES=0 python DualNetGO_cafa.py --mode predict --aspect C --txt data/cafa3/cc_query_results.txt --resultdir test
