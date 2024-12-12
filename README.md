@@ -3,6 +3,7 @@ DualNetGO: A Dual Network Model for Protein Function Prediction via Effective Fe
 
 This work is published on Bioinformatics [Zhuoyang Chen, Qiong Luo, DualNetGO: a dual network model for protein function prediction via effective feature selection, Bioinformatics, Volume 40, Issue 7, July 2024, btae437, https://doi.org/10.1093/bioinformatics/btae437](https://doi.org/10.1093/bioinformatics/btae437)
 
+## Brief Introduction
 Here we provide the codes, some of the processed data, and important results of the DualNetGO paper. DualNetGO is comprised of two components: a **graph encoder** for extracting graph information or generating graph embeddings, and a **predictor** for predicting protein functions.
 
 Most of the codes in this study are obtained from [CFAGO](http://bliulab.net/CFAGO) and [DualNetGNN](https://github.com/sunilkmaurya/DualNetGNN_large). For more details one can check the original papers at:
